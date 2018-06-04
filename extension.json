@@ -1,0 +1,63 @@
+{
+	"name": "BlueSpiceUEModuleDOCX",
+	"version": "3.0.0-alpha",
+	"license-name": "GPL-3.0",
+	"url": "https://help.bluespice.com/index.php/UEModuleDOCX",
+	"author": [
+		"Robert Vogel"
+	],
+	"descriptionmsg": "bs-uemoduledocx-extension-description",
+	"type": "bluespice",
+	"attributes": {
+		"BlueSpiceFoundation": {
+			"Extensions": {
+				"BlueSpiceUEModuleDOCX": {
+					"className": "UEModuleDOCX",
+					"extPath": "/BlueSpiceUEModuleDOCX",
+					"package": "BlueSpice Pro",
+					"status": "stable",
+					"configDefinitions": {
+						"UEModuleDOCXSuppressNS": "\\BlueSpice\\UEModuleDOCX\\ConfigDefinition\\SuppressNS::getInstance"
+					}
+				}
+			}
+		}
+	},
+	"MessagesDirs": {
+		"UEModuleDOCX": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"UEModuleDOCX": "UEModuleDOCX.class.php",
+		"BsExportModuleDOCX": "includes/ExportModuleDOCX.class.php",
+		"BsDOCXServlet": "includes/DOCXServlet.class.php",
+		"BsDOCXPageProvider": "includes/DOCXPageProvider.class.php",
+		"BsDOCXTemplateProvider": "includes/DOCXTemplateProvider.class.php"
+	},
+	"AutoloadNamespaces": {
+		"BlueSpice\\UEModuleDOCX\\": "src/"
+	},
+	"config_prefix": "bsg",
+	"config": {
+		"UEModuleDOCXSuppressNS": {
+			"value": false,
+			"descriptionmsg": "bs-uemoduledocx-pref-SuppressNS",
+			"public": true
+		},
+		"UEModuleDOCXDOCXServiceURL": {
+			"value": "http://localhost/BShtml2DOCX"
+		},
+		"UEModuleDOCXDOCXServiceSecret": {
+			"value": "$1$DP0.QV2.$BPGuGZOMuWwuc5DlGI1lK/"
+		},
+		"UEModuleDOCXDefaultTemplate": {
+			"value": "BlueSpice"
+		},
+		"UEModuleDOCXTemplatePath": {
+			"value": "extensions/BlueSpiceUEModuleDOCX/data/templates"
+		}
+	},
+	"load_composer_autoloader": true,
+	"manifest_version": 2
+}
