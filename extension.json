@@ -52,7 +52,7 @@
 			"value": "$1$DP0.QV2.$BPGuGZOMuWwuc5DlGI1lK/"
 		},
 		"UEModuleDOCXDefaultTemplate": {
-			"value": "BlueSpice"
+			"value": "BlueSpice.docx"
 		},
 		"UEModuleDOCXTemplatePath": {
 			"value": "extensions/BlueSpiceUEModuleDOCX/data/templates"

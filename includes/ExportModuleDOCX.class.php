@@ -63,6 +63,7 @@ class BsExportModuleDOCX implements BsUniversalExportModule {
 		$sTemplate = $config->get( 'UEModuleDOCXTemplatePath' )
 			.'/'
 			.$config->get( 'UEModuleDOCXDefaultTemplate' );
+
 		$sTemplate = realpath( $sTemplate );
 
 		$aPage = BsDOCXPageProvider::getPage( $oCaller->aParams );

@@ -38,8 +38,8 @@ class BsDOCXServlet {
 		$sHtmlDOM = $oHtmlDOM->saveXML( $oHtmlDOM->documentElement );
 
 		//Save temporary
-		$sTmpHtmlFile = BSDATADIR.DS.'UEModuleDOCX'.DS.$this->aParams['document-token'].'.html';
-		$sTmpDOCXFile = BSDATADIR.DS.'UEModuleDOCX'.DS.$this->aParams['document-token'].'.docx';
+		$sTmpHtmlFile = BSDATADIR.'/UEModuleDOCX/'.$this->aParams['document-token'].'.html';
+		$sTmpDOCXFile = BSDATADIR.'/UEModuleDOCX/'.$this->aParams['document-token'].'.docx';
 		file_put_contents( $sTmpHtmlFile, $sHtmlDOM );
 
 		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
@@ -138,7 +138,7 @@ class BsDOCXServlet {
 				'documentToken' => $this->aParams['document-token'],
 				'wikiId'        => wfWikiID(),
 				'secret'        => $config->get(
-					'UEModuleDOCX::DOCXServiceSecret'
+					'UEModuleDOCXDOCXServiceSecret'
 				)
 			);
 
