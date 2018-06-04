@@ -38,9 +38,6 @@ class BsDOCXPageProvider {
 			$aParams + array( 'follow-redirects' => true )
 		); // TODO RBV (06.12.11 17:09): Follow Redirect... setting or default?
 
-		//Collect Metadata
-		$aData = self::collectData( $oTitle, $oPageDOM, $aParams );
-
 		//Cleanup DOM
 		self::cleanUpDOM( $oTitle, $oPageDOM, $aParams );
 		
@@ -50,98 +47,16 @@ class BsDOCXPageProvider {
 
 		if( isset($aParams['display-title'] ) ) {
 			$oFirstHeading->nodeValue = $aParams['display-title'];
-			$aData['meta']['title']   = $aParams['display-title'];
 		}
 		
 		$aPage = array(
 			'dom' => $oPageDOM,
 			'firstheading-element' => $oFirstHeading,
 			'bodycontent-element'  => $oBodyContent,
-			'meta'             => $aData['meta']
 		);
 		
 		wfRunHooks( 'BSUEModuleDOCXgetPage', array( $oTitle, &$aPage, &$aParams, $oDOMXPath ) );
 		return $aPage;
-	}
-
-	/**
-	 * Collects metadata and additional resources for this page
-	 * @param Title $oTitle
-	 * @param DOMDocument $oPageDOM
-	 * @param array $aParams
-	 * @return array array( 'meta' => ..., 'resources' => ...);
-	 */
-	private static function collectData( $oTitle, $oPageDOM, $aParams ) {
-		$aMeta = array();
-		
-		// TODO RBV (01.02.12 13:51): Handle oldid
-		$aCategories = array();
-		if( $oTitle->exists() ) {
-			// TODO RBV (27.06.12 11:47): Throws an exception. Maybe better use try ... catch instead of $oTitle->exists()
-			$aAPIParams = new FauxRequest( array(
-					'action' => 'parse',
-					//'oldid'  => ,
-					'page'  => $oTitle->getPrefixedText(),
-					'prop'   => 'images|categories|links'
-			));
-
-			$oAPI = new ApiMain( $aAPIParams );
-			$oAPI->execute();
-
-			$aResult = $oAPI->getResultData();
-
-			foreach($aResult['parse']['categories'] as $aCat ) {
-				$aCategories[] = $aCat['*'];
-			}
-		}
-		
-		//Dublin Core:
-		$aMeta['DC.title'] = $oTitle->getPrefixedText();
-		$aMeta['DC.date']  = wfTimestamp( TS_ISO_8601 ); // TODO RBV (14.12.10 14:01): Check for conformity. Maybe there is a better way to acquire than wfTimestamp()?
-
-		//Custom
-		global $wgLang;
-		$sCurrentTS = $wgLang->userAdjust( wfTimestampNow() );
-		$aMeta['title']           = $oTitle->getPrefixedText();
-		$aMeta['exportdate']      = $wgLang->sprintfDate( 'd.m.Y', $sCurrentTS );
-		$aMeta['exporttime']      = $wgLang->sprintfDate( 'H:i', $sCurrentTS );
-		$aMeta['exporttimeexact'] = $wgLang->sprintfDate( 'H:i:s', $sCurrentTS );
-		
-		//Custom - Categories->Keywords
-		$aMeta['keywords'] = implode( ', ', $aCategories );
-
-		$oDOMXPath = new DOMXPath( $oPageDOM );
-		$oMetadataElements = $oDOMXPath->query( "//div[@class='bs-universalexport-meta']" );
-		foreach( $oMetadataElements as $oMetadataElement ) {
-			if( $oMetadataElement->hasAttributes() ) {
-				foreach( $oMetadataElement->attributes as $oAttribute ) {
-					if( $oAttribute->name !== 'class' ) {
-						$aMeta[ $oAttribute->name ] = $oAttribute->value;
-					}
-				}
-			}
-			$oMetadataElement->parentNode->removeChild( $oMetadataElement );
-		}
-		
-		//If it's a normal article
-		if( !in_array( $oTitle->getNamespace(), array( NS_SPECIAL, NS_IMAGE, NS_CATEGORY ) ) ) {
-			$oArticle = new Article($oTitle);
-			$aMeta['author'] = $oArticle->getUserText(); // TODO RBV (14.12.10 12:19): Realname/Username -> DisplayName
-			$aMeta['date']   = $wgLang->sprintfDate( 'd.m.Y', $oArticle->getTouched() );
-		}
-
-		wfRunHooks( 'BSUEModuleDOCXcollectMetaData', array( $oTitle, $oPageDOM, &$aParams, $oDOMXPath, &$aMeta ) );
-
-		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
-			->makeConfig( 'bsg' );
-
-		$aMetaDataOverrides = \FormatJson::decode(
-			$config->get( 'UniversalExportMetadataOverrides' ),
-			true
-		);
-		$aMeta = array_merge( $aMeta, $aMetaDataOverrides );
-		
-		return array( 'meta' => $aMeta );
 	}
 
 	/**
