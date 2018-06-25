@@ -1,5 +1,5 @@
 {
-	"name": "bluespice/ue-module-docx",
+	"name": "bluespice/uemoduledocx",
 	"type": "mediawiki-extension",
 	"description": "Enables BlueSpice to export to docx",
 	"license": "GPL-3.0",
