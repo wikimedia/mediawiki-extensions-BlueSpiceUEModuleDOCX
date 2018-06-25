@@ -2,7 +2,7 @@
 	"name": "bluespice/ue-module-docx",
 	"type": "mediawiki-extension",
 	"description": "Enables BlueSpice to export to docx",
-	"license": "GPL-3.0",
+	"license": "GPL-3.0-only",
 	"extra": {
 		"installer-name": "BlueSpiceUEModuleDOCX"
 	},
