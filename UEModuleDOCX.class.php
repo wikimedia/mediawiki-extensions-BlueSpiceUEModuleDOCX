@@ -52,7 +52,7 @@ class UEModuleDOCX extends BsExtensionMW {
 	 */
 	public function onLoadExtensionSchemaUpdates( $updater = null ) {
 		//TODO: Create abstraction in Core/Adapter
-		$sTmpDir = BSDATADIR.DS.'UEModuleDOCX';
+		$sTmpDir = BSDATADIR.'/UEModuleDOCX';
 		if( !file_exists( $sTmpDir ) ) {
 			echo 'Directory "'.$sTmpDir.'" not found. Creating.'."\n";
 			mkdir( $sTmpDir );
