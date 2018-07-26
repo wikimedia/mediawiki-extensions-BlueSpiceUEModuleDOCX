@@ -66,7 +66,7 @@ class BsDOCXServlet {
 			$aOptions['postData']['debug'] = "true";
 		}
 
-		wfRunHooks( 'BSUEModuleDOCXCreateDOCXBeforeSend', array( $this, &$aOptions, $oHtmlDOM ) );
+		\Hooks::run( 'BSUEModuleDOCXCreateDOCXBeforeSend', array( $this, &$aOptions, $oHtmlDOM ) );
 
 		$vHttpEngine = Http::$httpEngine;
 		Http::$httpEngine = 'curl';
@@ -159,7 +159,7 @@ class BsDOCXServlet {
 				);
 			}
 
-			wfRunHooks( 'BSUEModuleDOCXUploadFilesBeforeSend', array( $this, &$aPostData, $sType ) );
+			\Hooks::run( 'BSUEModuleDOCXUploadFilesBeforeSend', array( $this, &$aPostData, $sType ) );
 
 			$vHttpEngine = Http::$httpEngine;
 			Http::$httpEngine = 'curl';
@@ -276,8 +276,8 @@ class BsDOCXServlet {
 			// TODO RBV (05.04.12 11:48): Check if urlencode has side effects
 			$oImageElement->setAttribute( 'src', 'images/'.urlencode($sSrcFilename) );
 			$sFileName = $sSrcFilename;
-			wfRunHooks( 'BSUEModuleDOCXFindFiles', array( $this, $oImageElement, $sAbsoluteFileSystemPath, $sFileName, 'images' ) );
-			wfRunHooks( 'BSUEModuleDOCXWebserviceFindFiles', array( $this, $oImageElement, $sAbsoluteFileSystemPath, $sFileName, 'images' ) );
+			\Hooks::run( 'BSUEModuleDOCXFindFiles', array( $this, $oImageElement, $sAbsoluteFileSystemPath, $sFileName, 'images' ) );
+			\Hooks::run( 'BSUEModuleDOCXWebserviceFindFiles', array( $this, $oImageElement, $sAbsoluteFileSystemPath, $sFileName, 'images' ) );
 			$this->aFiles['images'][$sFileName] =  $sAbsoluteFileSystemPath;
 		}
 
@@ -296,7 +296,7 @@ class BsDOCXServlet {
 		}
 		 */
 
-		wfRunHooks( 'BSUEModuleDOCXAfterFindFiles', array( $this, $oHtml, &$this->aFiles, $this->aParams, $oDOMXPath ) );
+		\Hooks::run( 'BSUEModuleDOCXAfterFindFiles', array( $this, $oHtml, &$this->aFiles, $this->aParams, $oDOMXPath ) );
 		return true;
 	}
 

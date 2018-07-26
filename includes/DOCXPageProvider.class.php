@@ -25,7 +25,7 @@ class BsDOCXPageProvider {
 	 * @return array 
 	 */
 	public static function getPage( $aParams ) {
-		wfRunHooks( 'BSUEModuleDOCXbeforeGetPage', array( &$aParams ) );
+		\Hooks::run( 'BSUEModuleDOCXbeforeGetPage', array( &$aParams ) );
 		
 		$oTitle = Title::newFromID($aParams['article-id']);
 		if( $oTitle == null ){
@@ -55,7 +55,7 @@ class BsDOCXPageProvider {
 			'bodycontent-element'  => $oBodyContent,
 		);
 		
-		wfRunHooks( 'BSUEModuleDOCXgetPage', array( $oTitle, &$aPage, &$aParams, $oDOMXPath ) );
+		\Hooks::run( 'BSUEModuleDOCXgetPage', array( $oTitle, &$aPage, &$aParams, $oDOMXPath ) );
 		return $aPage;
 	}
 
@@ -70,7 +70,7 @@ class BsDOCXPageProvider {
 	private static function cleanUpDOM( $oTitle, $oPageDOM, $aParams ) {
 		$aClassesToRemove = array( 'editsection', 'bs-universalexport-exportexclude', 'magnify' );
 		$oDOMXPath = new DOMXPath($oPageDOM );
-		wfRunHooks( 'BSUEModuleDOCXcleanUpDOM', array( $oTitle, $oPageDOM, &$aParams, $oDOMXPath, &$aClassesToRemove ) );
+		\Hooks::run( 'BSUEModuleDOCXcleanUpDOM', array( $oTitle, $oPageDOM, &$aParams, $oDOMXPath, &$aClassesToRemove ) );
 
 		//Remove script-Tags
 		foreach( $oPageDOM->getElementsByTagName( 'script' ) as $oScriptElement ) {

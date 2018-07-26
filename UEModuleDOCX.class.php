@@ -96,7 +96,7 @@ class UEModuleDOCX extends BsExtensionMW {
 			'TEXT'    => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 		);
 
-		wfRunHooks( 'BSUEModuleDOCXBeforeCreateWidget', array( $this, $oSpecialPage, &$aLinks, $aCurrentQueryParams ) );
+		\Hooks::run( 'BSUEModuleDOCXBeforeCreateWidget', array( $this, $oSpecialPage, &$aLinks, $aCurrentQueryParams ) );
 
 		$oDOCXView = new ViewBaseElement();
 		$oDOCXView->setAutoWrap( '<ul>###CONTENT###</ul>' );

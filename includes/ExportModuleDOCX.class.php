@@ -68,7 +68,7 @@ class BsExportModuleDOCX implements BsUniversalExportModule {
 
 		$aPage = BsDOCXPageProvider::getPage( $oCaller->aParams );
 
-		wfRunHooks( 'BSUEModuleDOCXBeforeCreateDOCX', array( $this, &$sTemplate, $oCaller ) );
+		\Hooks::run( 'BSUEModuleDOCXBeforeCreateDOCX', array( $this, &$sTemplate, $oCaller ) );
 
 		$oDOCXBackend = new BsDOCXServlet( $oCaller->aParams );
 
