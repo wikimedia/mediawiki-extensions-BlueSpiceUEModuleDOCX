@@ -257,16 +257,10 @@ class BsDOCXServlet {
 			$oImage = RepoGroup::singleton()->findFile( $oFileTitle );
 
 			//TODO: This is a quickfix for MW 1.19+ --> find better solution
-			global $wgVersion;
 			if( $oImage instanceof File && $oImage->exists() ) {
-				if ( $wgVersion < '1.18.0' ) {
-					$sAbsoluteFileSystemPath = $oImage->getPath();
-				}
-				else {
-					$oFileRepoLocalRef = $oImage->getRepo()->getLocalReference( $oImage->getPath() );
-					if ( !is_null( $oFileRepoLocalRef ) ) {
-						$sAbsoluteFileSystemPath = $oFileRepoLocalRef->getPath();
-					}
+				$oFileRepoLocalRef = $oImage->getRepo()->getLocalReference( $oImage->getPath() );
+				if ( !is_null( $oFileRepoLocalRef ) ) {
+					$sAbsoluteFileSystemPath = $oFileRepoLocalRef->getPath();
 				}
 				$sSrcFilename = $oImage->getName();
 			}
@@ -283,18 +277,6 @@ class BsDOCXServlet {
 
 		$oDOMXPath = new DOMXPath( $oHtml );
 
-		/*
-		 * This is now in template
-		//Find all CSS files
-		$oLinkElements = $oHtml->getElementsByTagName( 'link' ); // TODO RBV (02.02.11 16:48): Limit to rel="stylesheet" and type="text/css"
-		foreach( $oLinkElements as $oLinkElement ) {
-			$sHrefUrl = $oLinkElement->getAttribute( 'href' );
-			$sHrefFilename           = basename( $sHrefUrl );
-			$sAbsoluteFileSystemPath = $this->getFileSystemPath( $sHrefUrl );
-			$this->aFiles[ $sAbsoluteFileSystemPath ] = array( $sHrefFilename, 'STYLESHEET' );
-			$oLinkElement->setAttribute( 'href', 'stylesheets/'.$sHrefFilename );
-		}
-		 */
 
 		\Hooks::run( 'BSUEModuleDOCXAfterFindFiles', array( $this, $oHtml, &$this->aFiles, $this->aParams, $oDOMXPath ) );
 		return true;
