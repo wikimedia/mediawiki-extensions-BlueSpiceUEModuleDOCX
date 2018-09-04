@@ -134,7 +134,7 @@ class UEModuleDOCX extends BsExtensionMW {
 			'title' => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
 			'text' => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 			'class' => 'bs-ue-export-link',
-			'IconClass' => 'icon-file-word icon-image'
+			'iconClass' => 'icon-file-word icon-image'
 		);
 
 		$template->data['bs_export_menu'][] = $aContentActions;
