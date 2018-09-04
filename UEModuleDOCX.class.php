@@ -133,7 +133,8 @@ class UEModuleDOCX extends BsExtensionMW {
 			'href' => $oSpecialPage->getLinkUrl( $aCurrentQueryParams ),
 			'title' => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
 			'text' => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
-			'classes' => 'icon-file-word icon-image'
+			'class' => 'bs-ue-export-link',
+			'iconClass' => 'icon-file-word icon-image'
 		);
 
 		$template->data['bs_export_menu'][] = $aContentActions;
