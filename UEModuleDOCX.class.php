@@ -41,27 +41,7 @@ class UEModuleDOCX extends BsExtensionMW {
 	protected function initExt() {
 		$this->setHook('BSUniversalExportGetWidget');
 		$this->setHook('BSUniversalExportSpecialPageExecute');
-		$this->setHook('LoadExtensionSchemaUpdates');
 		$this->setHook('SkinTemplateOutputPageBeforeExec'); //LACK OF ICON
-	}
-
-	/**
-	 * Sets up requires directories
-	 * @param DatabaseUpdater $updater Provided by MediaWikis update.php
-	 * @return boolean Always true to keep the hook running
-	 */
-	public function onLoadExtensionSchemaUpdates( $updater = null ) {
-		//TODO: Create abstraction in Core/Adapter
-		$sTmpDir = BS_DATA_DIR.'/UEModuleDOCX';
-		if( !file_exists( $sTmpDir ) ) {
-			echo 'Directory "'.$sTmpDir.'" not found. Creating.'."\n";
-			mkdir( $sTmpDir );
-		}
-		else {
-			echo 'Directory "'.$sTmpDir.'" found.'."\n";
-		}
-
-		return true;
 	}
 
 	/**

@@ -58,6 +58,9 @@
 			"value": "extensions/BlueSpiceUEModuleDOCX/data/templates"
 		}
 	},
+	"Hooks": {
+		"BSMigrateSettingsFromDeviatingNames": "\\BlueSpice\\UEModuleDOCX\\Hook\\BSMigrateSettingsFromDeviatingNames\\SkipServiceSettings::callback"
+	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2
 }
