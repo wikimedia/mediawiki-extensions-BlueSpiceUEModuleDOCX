@@ -1,0 +1,73 @@
+{
+	"name": "BlueSpiceUEModuleDOCX",
+	"version": "3.2.0-alpha",
+	"license-name": "GPL-3.0-only",
+	"url": "https://en.wiki.bluespice.com/wiki/Reference:UEModuleDOCX",
+	"author": [
+		"Robert Vogel"
+	],
+	"descriptionmsg": "bs-uemoduledocx-extension-description",
+	"requires": {
+		"MediaWiki": ">= 1.34.0",
+		"extensions": {
+			"BlueSpiceFoundation": ">= 3.2",
+			"BlueSpiceUniversalExport": ">= 3.2"
+		}
+	},
+	"type": "bluespice",
+	"attributes": {
+		"BlueSpiceFoundation": {
+			"Extensions": {
+				"BlueSpiceUEModuleDOCX": {
+					"className": "UEModuleDOCX",
+					"extPath": "/BlueSpiceUEModuleDOCX",
+					"package": "BlueSpice Pro",
+					"status": "stable",
+					"configDefinitions": {
+						"UEModuleDOCXSuppressNS": "\\BlueSpice\\UEModuleDOCX\\ConfigDefinition\\SuppressNS::getInstance"
+					}
+				}
+			}
+		}
+	},
+	"MessagesDirs": {
+		"UEModuleDOCX": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"UEModuleDOCX": "UEModuleDOCX.class.php",
+		"BsExportModuleDOCX": "includes/ExportModuleDOCX.class.php",
+		"BsDOCXServlet": "includes/DOCXServlet.class.php",
+		"BsDOCXPageProvider": "includes/DOCXPageProvider.class.php",
+		"BsDOCXTemplateProvider": "includes/DOCXTemplateProvider.class.php"
+	},
+	"AutoloadNamespaces": {
+		"BlueSpice\\UEModuleDOCX\\": "src/"
+	},
+	"config_prefix": "bsg",
+	"config": {
+		"UEModuleDOCXSuppressNS": {
+			"value": false,
+			"descriptionmsg": "bs-uemoduledocx-pref-SuppressNS",
+			"public": true
+		},
+		"UEModuleDOCXDOCXServiceURL": {
+			"value": "http://localhost/BShtml2DOCX"
+		},
+		"UEModuleDOCXDOCXServiceSecret": {
+			"value": "$1$DP0.QV2.$BPGuGZOMuWwuc5DlGI1lK/"
+		},
+		"UEModuleDOCXDefaultTemplate": {
+			"value": "BlueSpice.docx"
+		},
+		"UEModuleDOCXTemplatePath": {
+			"value": "extensions/BlueSpiceUEModuleDOCX/data/templates"
+		}
+	},
+	"Hooks": {
+		"BSMigrateSettingsFromDeviatingNames": "\\BlueSpice\\UEModuleDOCX\\Hook\\BSMigrateSettingsFromDeviatingNames\\SkipServiceSettings::callback"
+	},
+	"load_composer_autoloader": true,
+	"manifest_version": 2
+}
