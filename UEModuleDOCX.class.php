@@ -47,46 +47,46 @@ class UEModuleDOCX extends BsExtensionMW {
 	/**
 	 * Event-Handler method for the 'BSUniversalExportCreateWidget' event.
 	 * Registers the DOCX Module with the UniversalExport Extension.
-	 * @param SpecialUniversalExport $oSpecialPage
-	 * @param string $sParam
-	 * @param array $aModules
+	 * @param SpecialUniversalExport $specialPage
+	 * @param string $param
+	 * @param array $modules
 	 * @return true
 	 */
-	public function onBSUniversalExportSpecialPageExecute( $oSpecialPage, $sParam, &$aModules ) {
-		$aModules['docx'] = new BsExportModuleDOCX();
+	public function onBSUniversalExportSpecialPageExecute( $specialPage, $param, &$modules ) {
+		$modules['docx'] = new BsExportModuleDOCX();
 		return true;
 	}
 
 	/**
 	 * Hook-Handler method for the 'BSUniversalExportGetWidget' event.
-	 * @param UniversalExport $oUniversalExport
-	 * @param array $aModules
-	 * @param Title $oSpecialPage
-	 * @param Title $oCurrentTitle
-	 * @param array $aCurrentQueryParams
+	 * @param UniversalExport $universalExport
+	 * @param array $modules
+	 * @param Title $specialPage
+	 * @param Title $currentTitle
+	 * @param array $currentQueryParams
 	 * @return boolean
 	 */
-	public function onBSUniversalExportGetWidget( $oUniversalExport, &$aModules, $oSpecialPage, $oCurrentTitle, $aCurrentQueryParams ) {
-		$aCurrentQueryParams['ue[module]'] = 'docx';
-		$aLinks = array();
-		$aLinks['docx-single'] = array(
-			'URL'     => $oSpecialPage->getLinkUrl( $aCurrentQueryParams ),
+	public function onBSUniversalExportGetWidget( $universalExport, &$modules, $specialPage, $currentTitle, $currentQueryParams ) {
+		$currentQueryParams['ue[module]'] = 'docx';
+		$links = array();
+		$links['docx-single'] = array(
+			'URL'     => $specialPage->getLinkUrl( $currentQueryParams ),
 			'TITLE'   => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
 			'CLASSES' => 'bs-uemoduledocx-single',
 			'TEXT'    => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 		);
 
-		\Hooks::run( 'BSUEModuleDOCXBeforeCreateWidget', array( $this, $oSpecialPage, &$aLinks, $aCurrentQueryParams ) );
+		\Hooks::run( 'BSUEModuleDOCXBeforeCreateWidget', array( $this, $specialPage, &$links, $currentQueryParams ) );
 
-		$oDOCXView = new ViewBaseElement();
-		$oDOCXView->setAutoWrap( '<ul>###CONTENT###</ul>' );
-		$oDOCXView->setTemplate( '<li><a href="{URL}" rel="nofollow" title="{TITLE}" class="{CLASSES}">{TEXT}</a></li>' );#
+		$DOCXView = new ViewBaseElement();
+		$DOCXView->setAutoWrap( '<ul>###CONTENT###</ul>' );
+		$DOCXView->setTemplate( '<li><a href="{URL}" rel="nofollow" title="{TITLE}" class="{CLASSES}">{TEXT}</a></li>' );#
 
-		foreach( $aLinks as $sKey => $aData ) {
-			$oDOCXView->addData( $aData );
+		foreach( $links as $key => $data ) {
+			$DOCXView->addData( $data );
 		}
 
-		$aModules[] = $oDOCXView;
+		$modules[] = $DOCXView;
 		return true;
 	}
 
@@ -98,26 +98,26 @@ class UEModuleDOCX extends BsExtensionMW {
 	 * @return boolean always true
 	 */
 	public function onSkinTemplateOutputPageBeforeExec(&$skin, &$template){
-		$aCurrentQueryParams = $this->getRequest()->getValues();
-		if ( isset( $aCurrentQueryParams['title'] ) ) {
-			$sTitle = $aCurrentQueryParams['title'];
+		$currentQueryParams = $this->getRequest()->getValues();
+		if ( isset( $currentQueryParams['title'] ) ) {
+			$title = $currentQueryParams['title'];
 		} else {
-			$sTitle = '';
+			$title = '';
 		}
-		$sSpecialPageParameter = BsCore::sanitize( $sTitle, '', BsPARAMTYPE::STRING );
-		$oSpecialPage = SpecialPage::getTitleFor( 'UniversalExport', $sSpecialPageParameter );
-		if ( isset( $aCurrentQueryParams['title'] ) ) unset( $aCurrentQueryParams['title'] );
-		$aCurrentQueryParams['ue[module]'] = 'docx';
-		$aContentActions = array(
+		$specialPageParameter = BsCore::sanitize( $title, '', BsPARAMTYPE::STRING );
+		$specialPage = SpecialPage::getTitleFor( 'UniversalExport', $specialPageParameter );
+		if ( isset( $currentQueryParams['title'] ) ) unset( $currentQueryParams['title'] );
+		$currentQueryParams['ue[module]'] = 'docx';
+		$contentActions = array(
 			'id' => 'docx',
-			'href' => $oSpecialPage->getLinkUrl( $aCurrentQueryParams ),
+			'href' => $specialPage->getLinkUrl( $currentQueryParams ),
 			'title' => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
 			'text' => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 			'class' => 'bs-ue-export-link',
 			'iconClass' => 'icon-file-word icon-image'
 		);
 
-		$template->data['bs_export_menu'][] = $aContentActions;
+		$template->data['bs_export_menu'][] = $contentActions;
 		return true;
 	}
 }

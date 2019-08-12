@@ -23,25 +23,25 @@ class BsDOCXTemplateProvider {
 	/**
 	 * Provides a array suitable for the MediaWiki HtmlFormField class 
 	 * HtmlSelectField.
-	 * @param array $aParams Has to contain the 'template-path' that has to be
+	 * @param array $params Has to contain the 'template-path' that has to be
 	 * searched for valid templates.
 	 * @return array A options array for a HtmlSelectField
 	 */
-	public static function getTemplatesForSelectOptions( $aParams ) {
-		$aOptions = array();
+	public static function getTemplatesForSelectOptions( $params ) {
+		$options = array();
 		try {
-			$sPath = realpath( $aParams['template-path'] );
-			$oDirIterator = new DirectoryIterator( $sPath );
-			foreach( $oDirIterator as $oFileInfo ) {
-				if( $oFileInfo->isDir() || $oFileInfo->isDot() ) continue;
+			$path = realpath( $params['template-path'] );
+			$dirIterator = new DirectoryIterator( $path );
+			foreach( $dirIterator as $fileInfo ) {
+				if( $fileInfo->isDir() || $fileInfo->isDot() ) continue;
 				
-				$sFileName = $oFileInfo->getBasename();
-				$aFileNameParts = explode('.', $sFileName);
-				$sFileExtension = array_pop( $aFileNameParts );
-				if( strtoupper( $sFileExtension ) != 'DOCX' ) continue;
+				$fileName = $fileInfo->getBasename();
+				$fileNameParts = explode('.', $fileName);
+				$fileExtension = array_pop( $fileNameParts );
+				if( strtoupper( $fileExtension ) != 'DOCX' ) continue;
 
-				$sTemplateName = implode('.', $aFileNameParts );
-				$aOptions[$sTemplateName] = $sFileName;
+				$templateName = implode('.', $fileNameParts );
+				$options[$templateName] = $fileName;
 			}
 		}
 		catch( Exception $e ) {
@@ -49,7 +49,7 @@ class BsDOCXTemplateProvider {
 			return array( '-' => '-' );
 		}
 		
-		return $aOptions;
+		return $options;
 		
 	}
 }
