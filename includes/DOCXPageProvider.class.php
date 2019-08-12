@@ -21,193 +21,193 @@ class BsDOCXPageProvider {
 
 	/**
 	 * Fetches the requested pages markup, cleans it and returns a DOMDocument.
-	 * @param array $aParams Needs the 'article-id' key to be set and valid.
+	 * @param array $params Needs the 'article-id' key to be set and valid.
 	 * @return array 
 	 */
-	public static function getPage( $aParams ) {
-		\Hooks::run( 'BSUEModuleDOCXbeforeGetPage', array( &$aParams ) );
+	public static function getPage( $params ) {
+		\Hooks::run( 'BSUEModuleDOCXbeforeGetPage', array( &$params ) );
 		
-		$oTitle = Title::newFromID($aParams['article-id']);
-		if( $oTitle == null ){
-			$oTitle = Title::newFromText($aParams['title']);
+		$title = Title::newFromID($params['article-id']);
+		if( $title == null ){
+			$title = Title::newFromText($params['title']);
 		}
 		
-		$oPCP = new BsPageContentProvider();
-		$oPageDOM = $oPCP->getDOMDocumentContentFor( 
-			$oTitle, 
-			$aParams + array( 'follow-redirects' => true )
+		$PCP = new BsPageContentProvider();
+		$pageDOM = $PCP->getDOMDocumentContentFor( 
+			$title, 
+			$params + array( 'follow-redirects' => true )
 		); // TODO RBV (06.12.11 17:09): Follow Redirect... setting or default?
 
 		//Cleanup DOM
-		self::cleanUpDOM( $oTitle, $oPageDOM, $aParams );
+		self::cleanUpDOM( $title, $pageDOM, $params );
 		
-		$oDOMXPath = new DOMXPath( $oPageDOM );
-		$oFirstHeading = $oDOMXPath->query( "//*[contains(@class, 'firstHeading')]" )->item(0);
-		$oBodyContent  = $oDOMXPath->query( "//*[contains(@class, 'bodyContent')]" )->item(0);
+		$DOMXPath = new DOMXPath( $pageDOM );
+		$firstHeading = $DOMXPath->query( "//*[contains(@class, 'firstHeading')]" )->item(0);
+		$bodyContent  = $DOMXPath->query( "//*[contains(@class, 'bodyContent')]" )->item(0);
 
-		if( isset($aParams['display-title'] ) ) {
-			$oFirstHeading->nodeValue = $aParams['display-title'];
+		if( isset($params['display-title'] ) ) {
+			$firstHeading->nodeValue = $params['display-title'];
 		}
 		
-		$aPage = array(
-			'dom' => $oPageDOM,
-			'firstheading-element' => $oFirstHeading,
-			'bodycontent-element'  => $oBodyContent,
+		$page = array(
+			'dom' => $pageDOM,
+			'firstheading-element' => $firstHeading,
+			'bodycontent-element'  => $bodyContent,
 		);
 		
-		\Hooks::run( 'BSUEModuleDOCXgetPage', array( $oTitle, &$aPage, &$aParams, $oDOMXPath ) );
-		return $aPage;
+		\Hooks::run( 'BSUEModuleDOCXgetPage', array( $title, &$page, &$params, $DOMXPath ) );
+		return $page;
 	}
 
 	/**
 	 * Cleans the DOM: removes editsections, script tags, some elementy 
 	 * by classes, makes links absolute and pages paginatable and prevents 
 	 * large images from clipping in the DOCX
-	 * @param Title $oTitle
-	 * @param DOMDocument $oPageDOM
-	 * @param array $aParams 
+	 * @param Title $title
+	 * @param DOMDocument $pageDOM
+	 * @param array $params 
 	 */
-	private static function cleanUpDOM( $oTitle, $oPageDOM, $aParams ) {
-		$aClassesToRemove = array( 'editsection', 'bs-universalexport-exportexclude', 'magnify' );
-		$oDOMXPath = new DOMXPath($oPageDOM );
-		\Hooks::run( 'BSUEModuleDOCXcleanUpDOM', array( $oTitle, $oPageDOM, &$aParams, $oDOMXPath, &$aClassesToRemove ) );
+	private static function cleanUpDOM( $title, $pageDOM, $params ) {
+		$classesToRemove = array( 'editsection', 'bs-universalexport-exportexclude', 'magnify' );
+		$DOMXPath = new DOMXPath($pageDOM );
+		\Hooks::run( 'BSUEModuleDOCXcleanUpDOM', array( $title, $pageDOM, &$params, $DOMXPath, &$classesToRemove ) );
 
 		//Remove script-Tags
-		foreach( $oPageDOM->getElementsByTagName( 'script' ) as $oScriptElement ) {
-			$oScriptElement->parentNode->removeChild( $oScriptElement );
+		foreach( $pageDOM->getElementsByTagName( 'script' ) as $scriptElement ) {
+			$scriptElement->parentNode->removeChild( $scriptElement );
 		}
 
 		//Remove elements by class
-		$aContainsStmnts = array();
-		foreach( $aClassesToRemove as $sClass ){
-			$aContainsStmnts[] = "contains(@class, '".$sClass."')";
+		$containsStmnts = array();
+		foreach( $classesToRemove as $classToRemove ){
+			$containsStmnts[] = "contains(@class, '".$classToRemove."')";
 		}
 		
 		//Remove jumpmark anchors as Word doesn't need them and they may create unwanted linebreaks
-		$aContainsStmnts[] = "contains(@name, 'bs-ue-jumpmark-')";
+		$containsStmnts[] = "contains(@name, 'bs-ue-jumpmark-')";
 		
-		$sXPath = '//*['.implode(' or ', $aContainsStmnts ).']';
+		$XPath = '//*['.implode(' or ', $containsStmnts ).']';
 
-		$oElementsToRemove = $oDOMXPath->query( $sXPath );
-		foreach( $oElementsToRemove as $oElementToRemove ) {
-			$oElementToRemove->parentNode->removeChild( $oElementToRemove );
+		$elementsToRemove = $DOMXPath->query( $XPath );
+		foreach( $elementsToRemove as $elementToRemove ) {
+			$elementToRemove->parentNode->removeChild( $elementToRemove );
 		}
 
 		//Make internal hyperlinks absolute
 		global $wgServer;
-		$oInternalAnchorElements = $oDOMXPath->query( "//a[not(contains(@class, 'external')) and not(starts-with(@href, '#'))]" ); //No external and no jumplinks
-		foreach( $oInternalAnchorElements as $oInternalAnchorElement ) {
-			$sRelativePath = $oInternalAnchorElement->getAttribute( 'href' );
-			$oInternalAnchorElement->setAttribute(
+		$internalAnchorElements = $DOMXPath->query( "//a[not(contains(@class, 'external')) and not(starts-with(@href, '#'))]" ); //No external and no jumplinks
+		foreach( $internalAnchorElements as $internalAnchorElement ) {
+			$relativePath = $internalAnchorElement->getAttribute( 'href' );
+			$internalAnchorElement->setAttribute(
 				'href',
-				$wgServer.$sRelativePath
+				$wgServer.$relativePath
 			);
 		}
 		
 		//TOC is not needed as Word generates one
-		$oTOCULElement = $oDOMXPath->query( "//*[contains(@id, 'toc')]" )->item(0);
-		if( $oTOCULElement instanceof DOMElement ) {
-			$oTOCULElement->parentNode->removeChild( $oTOCULElement );
+		$TOCULElement = $DOMXPath->query( "//*[contains(@id, 'toc')]" )->item(0);
+		if( $TOCULElement instanceof DOMElement ) {
+			$TOCULElement->parentNode->removeChild( $TOCULElement );
 		}
 		
-		$oImageLinks = $oDOMXPath->query( "//a[contains(@class, 'image')]" );
-		foreach( $oImageLinks as $oImageLink ){
-			$oParent = BsDOMHelper::getParentDOMElement( $oImageLink );
-			$oImage  = BsDOMHelper::getFirstDOMElementChild( $oImageLink );
-			$aClasses = explode( ' ', $oParent->getAttribute('class') );
-			if(in_array('thumbinner', $aClasses)) {
-				$oParent = BsDOMHelper::getParentDOMElement( $oParent );
-				$aClasses = explode( ' ', $oParent->getAttribute('class') );
+		$imageLinks = $DOMXPath->query( "//a[contains(@class, 'image')]" );
+		foreach( $imageLinks as $imageLink ){
+			$parent = BsDOMHelper::getParentDOMElement( $imageLink );
+			$image  = BsDOMHelper::getFirstDOMElementChild( $imageLink );
+			$classes = explode( ' ', $parent->getAttribute('class') );
+			if(in_array('thumbinner', $classes)) {
+				$parent = BsDOMHelper::getParentDOMElement( $parent );
+				$classes = explode( ' ', $parent->getAttribute('class') );
 			}
 			
-			$aIntersect = array_intersect( $aClasses, array('floatleft', 'tleft'));
-			if( !empty($aIntersect)) {
-				$oImage->setAttribute('align', 'left');
+			$intersect = array_intersect( $classes, array('floatleft', 'tleft'));
+			if( !empty($intersect)) {
+				$image->setAttribute('align', 'left');
 			}
-			$aIntersect = array_intersect( $aClasses, array('floatright', 'tright'));
-			if( !empty( $aIntersect )) {
-				$oImage->setAttribute('align', 'right');
+			$intersect = array_intersect( $classes, array('floatright', 'tright'));
+			if( !empty( $intersect )) {
+				$image->setAttribute('align', 'right');
 			}
-			//$oParent->parentNode->insertBefore( $oImage );
-			//$oParent->parentNode->removeChild($oParent);
+			//$parent->parentNode->insertBefore( $image );
+			//$parent->parentNode->removeChild($parent);
 		}
 		
 		//TODO: Should this be in DocxServlet::findFiles()?
 		//Prevent large images from clipping
-		foreach( $oPageDOM->getElementsByTagName( 'img' ) as $oImgElement ) {
-			$iWidth = $oImgElement->getAttribute( 'width' );
-			if( $iWidth > 700 ) {
-				$oImgElement->setAttribute( 'width', 700 );
-				$oImgElement->removeAttribute( 'height' );
+		foreach( $pageDOM->getElementsByTagName( 'img' ) as $imgElement ) {
+			$width = $imgElement->getAttribute( 'width' );
+			if( $width > 700 ) {
+				$imgElement->setAttribute( 'width', 700 );
+				$imgElement->removeAttribute( 'height' );
 				
-				$sClasses = $oImgElement->getAttribute( 'class' );
-				$oImgElement->setAttribute( 'class', $sClasses.' maxwidth' );
+				$classToRemoves = $imgElement->getAttribute( 'class' );
+				$imgElement->setAttribute( 'class', $classToRemoves.' maxwidth' );
 			}
 			
 			//Remove surrounding anchor tags as PHPDOCX will render them with 
 			//an underline
-			$oParent = BsDOMHelper::getParentDOMElement( $oImgElement );
-			if( strtoupper( $oParent->nodeName ) !== 'A' ) continue;
-			BsDOMHelper::insertAfter($oImgElement, $oParent);
-			$oParent->parentNode->removeChild($oParent);
+			$parent = BsDOMHelper::getParentDOMElement( $imgElement );
+			if( strtoupper( $parent->nodeName ) !== 'A' ) continue;
+			BsDOMHelper::insertAfter($imgElement, $parent);
+			$parent->parentNode->removeChild($parent);
 		}
 		
 		//PHPDOCX needs <p style="page-break-after" /> when using strictWordStyles and not interpreting CSS
-		$oPageBreaks = $oDOMXPath->query( "//*[contains(@class, 'bs-universalexport-pagebreak')]" );
-		$aPageBreaks = array(); //"non-live" list
-		foreach( $oPageBreaks as $oPageBreak ) {
-			$aPageBreaks[] = $oPageBreak;
+		$pageBreaks = $DOMXPath->query( "//*[contains(@class, 'bs-universalexport-pagebreak')]" );
+		$pageBreaks = array(); //"non-live" list
+		foreach( $pageBreaks as $pageBreak ) {
+			$pageBreaks[] = $pageBreak;
 		}
-		foreach( $aPageBreaks as $oPageBreak ) {
-			$oNewPB = $oPageDOM->createElement('p');
+		foreach( $pageBreaks as $pageBreak ) {
+			$newPB = $pageDOM->createElement('p');
 			//TODO: Maybe better set attribute on next DOMElement sibling of 
-			//$oPageBreak and afterwards remove $oPageBreak. BUT: property may
+			//$pageBreak and afterwards remove $pageBreak. BUT: property may
 			//only be evaluated on <p> tag!?
-			$oNewPB->setAttribute( 'style', 'page-break-before:always' );
-			$oPageBreak->parentNode->replaceChild($oNewPB, $oPageBreak);
+			$newPB->setAttribute( 'style', 'page-break-before:always' );
+			$pageBreak->parentNode->replaceChild($newPB, $pageBreak);
 		}
 		
 		//To avoid PHPDOCX from formatting every headline in BOLD
 		//we have to and an explicit font-weight styling
-		$oHeadingSpans = $oDOMXPath->query( "//*[contains(@class, 'mw-headline')]" );
-		$aHeadingSpans = array(); //"non-live" list
-		foreach( $oHeadingSpans as $oHeadingSpan ) {
-			$aHeadingSpans[] = $oHeadingSpan;
+		$headingSpans = $DOMXPath->query( "//*[contains(@class, 'mw-headline')]" );
+		$headingSpansList = array(); //"non-live" list
+		foreach( $headingSpans as $headingSpan ) {
+			$headingSpansList[] = $headingSpan;
 		}
-		foreach( $aHeadingSpans as $oHeadingSpan ) {
-			$oHeadingSpan->setAttribute('style', 'font-weight:normal');
+		foreach( $headingSpansList as $headingSpan ) {
+			$headingSpan->setAttribute('style', 'font-weight:normal');
 		}
 		
 		//There are some MediaWiki stylings we want to make available for
 		//Word formatting
-		$oMediaWikiClasses = $oDOMXPath->query( "//*[contains(@class, 'box')]" ); //TODO: may match "some-box" or "allboxes"
-		foreach( $oMediaWikiClasses as $oMWClass ) {
-			$sClasses = $oMWClass->getAttribute( 'class' ); //TODO: May contain more than one class!
-			$aClasses = explode( ' ', $sClasses );
+		$mediaWikiClasses = $DOMXPath->query( "//*[contains(@class, 'box')]" ); //TODO: may match "some-box" or "allboxes"
+		foreach( $mediaWikiClasses as $MWClass ) {
+			$classToRemoves = $MWClass->getAttribute( 'class' ); //TODO: May contain more than one class!
+			$classes = explode( ' ', $classToRemoves );
 			
 			//Flatten UL/OLs
 			//TODO: Recursive?
-			$aChildNodes = array();
-			foreach( $oMWClass->childNodes as $oChild ) {
-				$aChildNodes[] = $oChild;
+			$childNodes = array();
+			foreach( $MWClass->childNodes as $oChild ) {
+				$childNodes[] = $oChild;
 			}
 			
-			foreach( $aChildNodes as $oList ) {
-				if( $oList instanceof DOMElement == false ) continue;
-				if( !in_array( strtoupper( $oList->nodeName ), array( 'UL', 'OL' ) ) ) continue;
+			foreach( $childNodes as $list ) {
+				if( $list instanceof DOMElement == false ) continue;
+				if( !in_array( strtoupper( $list->nodeName ), array( 'UL', 'OL' ) ) ) continue;
 
-				$oLIs = $oList->getElementsByTagName('li');
-				foreach( $oLIs as $oLI ) {
-					$oP = $oPageDOM->createElement('p');
-					$oList->parentNode->insertBefore($oP, $oList);
-					foreach( $oLI->childNodes as $oContentNode ) {
-						$oP->appendChild($oContentNode);
+				$LIs = $list->getElementsByTagName('li');
+				foreach( $LIs as $LI ) {
+					$p = $pageDOM->createElement('p');
+					$list->parentNode->insertBefore($p, $list);
+					foreach( $LI->childNodes as $oContentNode ) {
+						$p->appendChild($oContentNode);
 					}
 				}
-				$oList->parentNode->removeChild( $oList );
+				$list->parentNode->removeChild( $list );
 			}
 			
-			BsDOMHelper::addClassesRecursive($oMWClass, $aClasses);
+			BsDOMHelper::addClassesRecursive($MWClass, $classes);
 		}
 	}
 }

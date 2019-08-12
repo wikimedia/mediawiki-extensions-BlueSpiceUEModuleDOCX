@@ -22,30 +22,30 @@ class BsDOCXServlet {
 
 	/**
 	 * Gets a DOMDocument, searches it for files, uploads files and markus to webservice and generated DOCX.
-	 * @param DOMDocument $oHtmlDOM The source markup
+	 * @param DOMDocument $HtmlDOM The source markup
 	 * @return string The resulting DOCX as bytes
 	 */
-	public function createDOCX( &$oHtmlDOM, $sDOCXTemplatePath ) {
-		if( !file_exists( $sDOCXTemplatePath ) ) {
-			throw new MWException( $sDOCXTemplatePath ); //TODO: better place?
+	public function createDOCX( &$HtmlDOM, $DOCXTemplatePath ) {
+		if( !file_exists( $DOCXTemplatePath ) ) {
+			throw new MWException( $DOCXTemplatePath ); //TODO: better place?
 		}
 
-		$this->findFiles( $oHtmlDOM );
+		$this->findFiles( $HtmlDOM );
 		$this->uploadFiles();
 
 		//HINT: http://www.php.net/manual/en/class.domdocument.php#96055
 		//But: Formated Output is evil because is will destroy formatting in <pre> Tags!
-		$sHtmlDOM = $oHtmlDOM->saveXML( $oHtmlDOM->documentElement );
+		$HtmlDOMXML = $HtmlDOM->saveXML( $HtmlDOM->documentElement );
 
 		//Save temporary
-		$sTmpHtmlFile = BS_DATA_DIR.'/UEModuleDOCX/'.$this->aParams['document-token'].'.html';
-		$sTmpDOCXFile = BS_DATA_DIR.'/UEModuleDOCX/'.$this->aParams['document-token'].'.docx';
-		file_put_contents( $sTmpHtmlFile, $sHtmlDOM );
+		$tmpHtmlFile = BS_DATA_DIR.'/UEModuleDOCX/'.$this->params['document-token'].'.html';
+		$tmpDOCXFile = BS_DATA_DIR.'/UEModuleDOCX/'.$this->params['document-token'].'.docx';
+		file_put_contents( $tmpHtmlFile, $HtmlDOMXML );
 
 		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
-		$aOptions = array(
+		$options = array(
 			'method'          => 'POST',
 			'timeout'         => 120,
 			'followRedirects' => true,
@@ -53,8 +53,8 @@ class BsDOCXServlet {
 			'sslVerifyCert'   => false,
 			'postData' => array(
 				'fileType'      => 'template',
-				'documentToken' => $this->aParams['document-token'],
-				'templateFile'  => class_exists( 'CURLFile' ) ? new CURLFile( $sDOCXTemplatePath ) : '@'.$sDOCXTemplatePath,
+				'documentToken' => $this->params['document-token'],
+				'templateFile'  => class_exists( 'CURLFile' ) ? new CURLFile( $DOCXTemplatePath ) : '@'.$DOCXTemplatePath,
 				'wikiId'        => wfWikiID(),
 				'secret'        => $config->get(
 					'UEModuleDOCXDOCXServiceSecret'
@@ -63,60 +63,60 @@ class BsDOCXServlet {
 		);
 
 		if( $config->get( 'TestMode' ) ) {
-			$aOptions['postData']['debug'] = "true";
+			$options['postData']['debug'] = "true";
 		}
 
-		\Hooks::run( 'BSUEModuleDOCXCreateDOCXBeforeSend', array( $this, &$aOptions, $oHtmlDOM ) );
+		\Hooks::run( 'BSUEModuleDOCXCreateDOCXBeforeSend', array( $this, &$options, $HtmlDOM ) );
 
-		$vHttpEngine = Http::$httpEngine;
+		$HttpEngine = Http::$httpEngine;
 		Http::$httpEngine = 'curl';
 		//HINT: http://www.php.net/manual/en/function.curl-setopt.php#refsect1-function.curl-setopt-notes
-		$oRequest = MWHttpRequest::factory(
+		$request = MWHttpRequest::factory(
 				//Tailing slash is important because otherwise Webserver will send
 				//"Moved Permanently" and cURL seems to loose POST data when
 				//following redirect
-				wfExpandUrl( $this->aParams['backend-url'].'/UploadAsset/' ),
-				$aOptions
+				wfExpandUrl( $this->params['backend-url'].'/UploadAsset/' ),
+				$options
 		);
-		$oStatus = $oRequest->execute();
-		if( !$oStatus->isOK() ) {
-			throw new MWException( $oStatus->getMessage() );
+		$status = $request->execute();
+		if( !$status->isOK() ) {
+			throw new MWException( $status->getMessage() );
 		}
 
 		//Now do the rendering
 		//We re-send the paramters but this time without the file.
-		unset( $aOptions['postData']['templateFile'] );
-		unset( $aOptions['postData']['fileType'] );
+		unset( $options['postData']['templateFile'] );
+		unset( $options['postData']['fileType'] );
 
-		$aOptions['postData']['WIKICONTENT'] = $sHtmlDOM;
+		$options['postData']['WIKICONTENT'] = $HtmlDOMXML;
 
-		$oRequest = MWHttpRequest::factory(
-			wfExpandUrl( $this->aParams['backend-url'].'/RenderDOCX/' ),
-			$aOptions
+		$request = MWHttpRequest::factory(
+			wfExpandUrl( $this->params['backend-url'].'/RenderDOCX/' ),
+			$options
 		);
-		$oStatus = $oRequest->execute();
-		if( !$oStatus->isOK() ) {
-			throw new MWException( $oStatus->getMessage() );
+		$status = $request->execute();
+		if( !$status->isOK() ) {
+			throw new MWException( $status->getMessage() );
 		}
-		$vPdfByteArray = $oRequest->getContent();
-		Http::$httpEngine = $vHttpEngine;
-		if( $vPdfByteArray == false ) {
+		$pdfByteArray = $request->getContent();
+		Http::$httpEngine = $HttpEngine;
+		if( $pdfByteArray == false ) {
 			wfDebugLog(
 				'BS::UEModuleDOCX',
-				'BsDOCXServlet::createDOCX: Failed creating "'.$this->aParams['document-token'].'"'
+				'BsDOCXServlet::createDOCX: Failed creating "'.$this->params['document-token'].'"'
 			);
-			throw new MWException( 'BsDOCXServlet::createDOCX: Failed creating "'.$this->aParams['document-token'].'"' );
+			throw new MWException( 'BsDOCXServlet::createDOCX: Failed creating "'.$this->params['document-token'].'"' );
 		}
 
-		file_put_contents( $sTmpDOCXFile, $vPdfByteArray );
+		file_put_contents( $tmpDOCXFile, $pdfByteArray );
 
 		//Remove temporary file
 		if( !$config->get( 'TestMode' ) ) {
-			unlink( $sTmpHtmlFile );
-			unlink( $sTmpDOCXFile );
+			unlink( $tmpHtmlFile );
+			unlink( $tmpDOCXFile );
 		}
 
-		return $vPdfByteArray;
+		return $pdfByteArray;
 	}
 
 	/**
@@ -126,69 +126,69 @@ class BsDOCXServlet {
 		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
-		foreach( $this->aFiles as $sType => $aFiles ) {
+		foreach( $this->filesList as $type => $filesList ) {
 
 			//Backwards compatibility to old inconsitent DOCXTemplates (having "STYLESHEET" as type but linnking to "stylesheets")
 			//TODO: Make conditional?
-			if( $sType == 'IMAGE' )      $sType = 'images';
-			if( $sType == 'STYLESHEET' ) $sType = 'stylesheets';
+			if( $type == 'IMAGE' )      $type = 'images';
+			if( $type == 'STYLESHEET' ) $type = 'stylesheets';
 
-			$aPostData = array(
-				'fileType'      => $sType,
-				'documentToken' => $this->aParams['document-token'],
+			$postData = array(
+				'fileType'      => $type,
+				'documentToken' => $this->params['document-token'],
 				'wikiId'        => wfWikiID(),
 				'secret'        => $config->get(
 					'UEModuleDOCXDOCXServiceSecret'
 				)
 			);
 
-			$aErrors = array();
-			$iCounter = 0;
-			foreach( $aFiles as $sFileName => $sFilePath ) {
+			$errors = array();
+			$counter = 0;
+			foreach( $filesList as $fileName => $sFilePath ) {
 				if( file_exists( $sFilePath) == false ) {
-					$aErrors[] = $sFilePath;
+					$errors[] = $sFilePath;
 					continue;
 				}
-				$aPostData['file'.$iCounter++] = class_exists( 'CURLFile' ) ? new CURLFile( $sFilePath ) : '@'.$sFilePath;
+				$postData['file'.$counter++] = class_exists( 'CURLFile' ) ? new CURLFile( $sFilePath ) : '@'.$sFilePath;
 			}
 
-			if( !empty( $aErrors ) ) {
+			if( !empty( $errors ) ) {
 				wfDebugLog(
 					'BS::UEModuleDOCX',
-					'BsDOCXServlet::uploadFiles: Error trying to fetch files:'."\n". var_export( $aErrors, true )
+					'BsDOCXServlet::uploadFiles: Error trying to fetch files:'."\n". var_export( $errors, true )
 				);
 			}
 
-			\Hooks::run( 'BSUEModuleDOCXUploadFilesBeforeSend', array( $this, &$aPostData, $sType ) );
+			\Hooks::run( 'BSUEModuleDOCXUploadFilesBeforeSend', array( $this, &$postData, $type ) );
 
-			$vHttpEngine = Http::$httpEngine;
+			$HttpEngine = Http::$httpEngine;
 			Http::$httpEngine = 'curl';
-			$sResponse = Http::post(
-				$this->aParams['backend-url'].'/UploadAsset/',
+			$response = Http::post(
+				$this->params['backend-url'].'/UploadAsset/',
 				array(
 					'timeout' => 120,
 					'followRedirects' => true,
 					'sslVerifyHost' => false,
 					'sslVerifyCert' => false,
-					'postData' => $aPostData
+					'postData' => $postData
 				)
 			);
-			Http::$httpEngine = $vHttpEngine;
+			Http::$httpEngine = $HttpEngine;
 
-			if( $sResponse != false ) {
+			if( $response != false ) {
 				wfDebugLog(
 					'BS::UEModuleDOCX',
-					'BsDOCXServlet::uploadFiles: Successfully added "'.$sType.'"'
+					'BsDOCXServlet::uploadFiles: Successfully added "'.$type.'"'
 				);
 				wfDebugLog(
 					'BS::UEModuleDOCX',
-					$sResponse
+					$response
 				);
 			}
 			else {
 				wfDebugLog(
 					'BS::UEModuleDOCX',
-					'BsDOCXServlet::uploadFiles: Failed adding "'.$sType.'"'
+					'BsDOCXServlet::uploadFiles: Failed adding "'.$type.'"'
 				);
 			}
 		}
@@ -198,109 +198,109 @@ class BsDOCXServlet {
 	 *
 	 * @var array
 	 */
-	protected $aParams = array();
+	protected $params = array();
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $aFiles  = array();
+	protected $filesList  = array();
 
 	/**
 	 * The contructor method forthis class.
-	 * @param array $aParams The params have to contain the key
+	 * @param array $params The params have to contain the key
 	 * 'backend-url', with a valid URL to the webservice. They can
 	 * contain a key 'soap-connection-options' for the SoapClient constructor
 	 * and a key 'resources' with al list of files to upload.
 	 * @throws UnexpectedValueException If 'backend-url' is not set or the Webservice is not available.
 	 */
-	public function __construct( &$aParams ) {
+	public function __construct( &$params ) {
 
-		$this->aParams = $aParams;
-		//$this->aFiles =  $aParams['resources'];
+		$this->params = $params;
+		//$this->filesList =  $params['resources'];
 
-		if ( empty( $this->aParams['backend-url'] ) ) {
+		if ( empty( $this->params['backend-url'] ) ) {
 			throw new UnexpectedValueException( 'backend-url-not-set' );
 		}
 
-		if( !BsConnectionHelper::urlExists( $this->aParams['backend-url'] ) ) {
+		if( !BsConnectionHelper::urlExists( $this->params['backend-url'] ) ) {
 			throw new UnexpectedValueException( 'backend-url-not-valid' );
 		}
 
 		//If a slash is last char, remove it.
-		if( substr($this->aParams['backend-url'], -1) == '/' ) {
-			$this->aParams['backend-url'] = substr($this->aParams['backend-url'], 0, -1);
+		if( substr($this->params['backend-url'], -1) == '/' ) {
+			$this->params['backend-url'] = substr($this->params['backend-url'], 0, -1);
 		}
 	}
 
 	/**
 	 * Searches the DOM for <img>-Tags and <a> Tags with class 'internal',
-	 * resolves the local filesystem path and adds it to $aFiles array.
-	 * @param DOMDocument $oHtml The markup to be searched.
+	 * resolves the local filesystem path and adds it to $filesList array.
+	 * @param DOMDocument $html The markup to be searched.
 	 * @return boolean Well, always true.
 	 */
-	protected function findFiles( &$oHtml ) {
+	protected function findFiles( &$html ) {
 		//Find all images
-		$oImageElements = $oHtml->getElementsByTagName( 'img' );
-		foreach( $oImageElements as $oImageElement ) {
-			$sSrcUrl      = urldecode( $oImageElement->getAttribute( 'src' ) );
-			$sSrcFilename = basename( $sSrcUrl );
+		$imageElements = $html->getElementsByTagName( 'img' );
+		foreach( $imageElements as $imageElement ) {
+			$srcUrl      = urldecode( $imageElement->getAttribute( 'src' ) );
+			$srcFilename = basename( $srcUrl );
 
-			$bIsThumb = UploadBase::isThumbName($sSrcFilename);
-			$sTmpFilename = $sSrcFilename;
-			if( $bIsThumb ) {
+			$isThumb = UploadBase::isThumbName($srcFilename);
+			$tmpFilename = $srcFilename;
+			if( $isThumb ) {
 				//HINT: Thumbname-to-filename-conversion taken from includes/Upload/UploadBase.php
 				//Check for filenames like 50px- or 180px-, these are mostly thumbnails
-				$sTmpFilename = substr( $sTmpFilename , strpos( $sTmpFilename , '-' ) +1 );
+				$tmpFilename = substr( $tmpFilename , strpos( $tmpFilename , '-' ) +1 );
 			}
-			$oFileTitle = Title::newFromText( $sTmpFilename, NS_FILE );
-			$oImage = RepoGroup::singleton()->findFile( $oFileTitle );
+			$fileTitle = Title::newFromText( $tmpFilename, NS_FILE );
+			$image = RepoGroup::singleton()->findFile( $fileTitle );
 
 			//TODO: This is a quickfix for MW 1.19+ --> find better solution
-			if( $oImage instanceof File && $oImage->exists() ) {
-				$oFileRepoLocalRef = $oImage->getRepo()->getLocalReference( $oImage->getPath() );
-				if ( !is_null( $oFileRepoLocalRef ) ) {
-					$sAbsoluteFileSystemPath = $oFileRepoLocalRef->getPath();
+			if( $image instanceof File && $image->exists() ) {
+				$fileRepoLocalRef = $image->getRepo()->getLocalReference( $image->getPath() );
+				if ( !is_null( $fileRepoLocalRef ) ) {
+					$absoluteFileSystemPath = $fileRepoLocalRef->getPath();
 				}
-				$sSrcFilename = $oImage->getName();
+				$srcFilename = $image->getName();
 			}
 			else {
-				$sAbsoluteFileSystemPath = $this->getFileSystemPath( $sSrcUrl );
+				$absoluteFileSystemPath = $this->getFileSystemPath( $srcUrl );
 			}
 			// TODO RBV (05.04.12 11:48): Check if urlencode has side effects
-			$oImageElement->setAttribute( 'src', 'images/'.urlencode($sSrcFilename) );
-			$sFileName = $sSrcFilename;
-			\Hooks::run( 'BSUEModuleDOCXFindFiles', array( $this, $oImageElement, $sAbsoluteFileSystemPath, $sFileName, 'images' ) );
-			\Hooks::run( 'BSUEModuleDOCXWebserviceFindFiles', array( $this, $oImageElement, $sAbsoluteFileSystemPath, $sFileName, 'images' ) );
-			$this->aFiles['images'][$sFileName] =  $sAbsoluteFileSystemPath;
+			$imageElement->setAttribute( 'src', 'images/'.urlencode($srcFilename) );
+			$fileName = $srcFilename;
+			\Hooks::run( 'BSUEModuleDOCXFindFiles', array( $this, $imageElement, $absoluteFileSystemPath, $fileName, 'images' ) );
+			\Hooks::run( 'BSUEModuleDOCXWebserviceFindFiles', array( $this, $imageElement, $absoluteFileSystemPath, $fileName, 'images' ) );
+			$this->filesList['images'][$fileName] =  $absoluteFileSystemPath;
 		}
 
-		$oDOMXPath = new DOMXPath( $oHtml );
+		$DOMXPath = new DOMXPath( $html );
 
 
-		\Hooks::run( 'BSUEModuleDOCXAfterFindFiles', array( $this, $oHtml, &$this->aFiles, $this->aParams, $oDOMXPath ) );
+		\Hooks::run( 'BSUEModuleDOCXAfterFindFiles', array( $this, $html, &$this->filesList, $this->params, $DOMXPath ) );
 		return true;
 	}
 
 	//<editor-fold desc="Helper Methods" defaultstate="collapsed">
 	/**
 	 * This helper method resolves the local file system path of a found file
-	 * @param string $sUrl
+	 * @param string $url
 	 * @return string The local file system path
 	 */
-	public function getFileSystemPath( $sUrl ) {
-		if( $sUrl{0} !== '/' || strpos( $sUrl, $this->aParams['webroot-filesystempath'] ) === 0 ) {
-			return $sUrl; //not relative to webroot or absolute filesystempath
+	public function getFileSystemPath( $url ) {
+		if( $url{0} !== '/' || strpos( $url, $this->params['webroot-filesystempath'] ) === 0 ) {
+			return $url; //not relative to webroot or absolute filesystempath
 		}
 
-		$sScriptUrlDir = dirname( $_SERVER['SCRIPT_NAME'] );
-		$sScriptFSDir  = dirname( $_SERVER['SCRIPT_FILENAME'] );
-		if( strpos( $sScriptFSDir, $sScriptUrlDir) == 0 ){ //detect virtual path (webserver setting)
-			$sUrl = '/'.substr( $sUrl, strlen( $sScriptUrlDir ) );
+		$scriptUrlDir = dirname( $_SERVER['SCRIPT_NAME'] );
+		$scriptFSDir  = dirname( $_SERVER['SCRIPT_FILENAME'] );
+		if( strpos( $scriptFSDir, $scriptUrlDir) == 0 ){ //detect virtual path (webserver setting)
+			$url = '/'.substr( $url, strlen( $scriptUrlDir ) );
 		}
 
-		$sNewUrl = $this->aParams['webroot-filesystempath'].$sUrl; // TODO RBV (08.02.11 15:56): What about $wgUploadDirectory?
-		return $sNewUrl;
+		$newUrl = $this->params['webroot-filesystempath'].$url; // TODO RBV (08.02.11 15:56): What about $wgUploadDirectory?
+		return $newUrl;
 	}
 	//</editor-fold>
 }
