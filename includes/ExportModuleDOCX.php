@@ -1,11 +1,11 @@
 <?php
 /**
- * BsExportModuleDOCX.
+ * ExportModuleDOCX.
  *
  * Part of BlueSpice MediaWiki
  *
  * @author     Robert Vogel <vogel@hallowelt.com>
- * @version    $Id: ExportModuleDOCX.class.php 9017 2013-03-25 09:22:09Z rvogel $
+ * @version    $Id: ExportModuleDOCX.php 9017 2013-03-25 09:22:09Z rvogel $
  * @package    BlueSpice_Extensions
  * @subpackage UEModuleDOCX
  * @copyright  Copyright (C) 2016 Hallo Welt! GmbH, All rights reserved.
@@ -14,16 +14,19 @@
  */
 
 /**
- * UniversalExport BsExportModuleDOCX class.
+ * UniversalExport ExportModuleDOCX class.
  * @package BlueSpice_Extensions
  * @subpackage UEModuleDOCX
  */
-class BsExportModuleDOCX implements BsUniversalExportModule {
+class ExportModuleDOCX implements BsUniversalExportModule {
 
 	/**
 	 * Implementation of BsUniversalExportModule interface.
-	 * @param SpecialUniversalExport $caller
-	 * @return array array( 'mime-type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'filename' => 'Filename.docx', 'content' => '8F3BC3025A7...' );
+	 * @param SpecialUniversalExport &$caller
+	 * @return array array(
+	 * 'mime-type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+	 * 'filename' => 'Filename.docx', 'content' => '8F3BC3025A7...'
+	 * );
 	 */
 	public function createExportFile( &$caller ) {
 		global $wgRequest;
@@ -36,48 +39,51 @@ class BsExportModuleDOCX implements BsUniversalExportModule {
 		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
-		if( $config->get( 'UEModuleDOCXSuppressNS' ) ) {
+		if ( $config->get( 'UEModuleDOCXSuppressNS' ) ) {
 			$caller->aParams['display-title'] = $caller->oRequestedTitle->getText();
 		}
-		//If we are in history mode and we are relative to an oldid
-		$caller->aParams['direction'] = $wgRequest->getVal('direction', '');
-		if( !empty( $caller->aParams['direction'] ) ) {
+		// If we are in history mode and we are relative to an oldid
+		$caller->aParams['direction'] = $wgRequest->getVal( 'direction', '' );
+		if ( !empty( $caller->aParams['direction'] ) ) {
 			$currentRevision = Revision::newFromId( $caller->aParams['oldid'] );
-			switch( $caller->aParams['direction'] ) {
+			switch ( $caller->aParams['direction'] ) {
 				case 'next': $currentRevision = $currentRevision->getNext();
 					break;
 				case 'prev': $currentRevision = $currentRevision->getPrevious();
 					break;
-				default: break;
+				default:
+break;
 			}
-			if( $currentRevision !== null ) {
+			if ( $currentRevision !== null ) {
 				$caller->aParams['oldid'] = $currentRevision->getId();
 			}
 		}
 
-		$caller->aParams['document-token'] = md5( $caller->oRequestedTitle->getPrefixedText() ).'-'.$caller->aParams['oldid'];
+		$caller->aParams['document-token'] = md5( $caller->oRequestedTitle->getPrefixedText() )
+			. '-'
+			. $caller->aParams['oldid'];
 		$caller->aParams['backend-url'] = $config->get(
 			'UEModuleDOCXDOCXServiceURL'
 		);
 
 		$template = $config->get( 'UEModuleDOCXTemplatePath' )
-			.'/'
-			.$config->get( 'UEModuleDOCXDefaultTemplate' );
+			. '/'
+			. $config->get( 'UEModuleDOCXDefaultTemplate' );
 
 		$template = realpath( $template );
 
-		$page = BsDOCXPageProvider::getPage( $caller->aParams );
+		$page = DOCXPageProvider::getPage( $caller->aParams );
 
-		\Hooks::run( 'BSUEModuleDOCXBeforeCreateDOCX', array( $this, &$template, $caller ) );
+		\Hooks::run( 'BSUEModuleDOCXBeforeCreateDOCX', [ $this, &$template, $caller ] );
 
-		$DOCXBackend = new BsDOCXServlet( $caller->aParams );
+		$DOCXBackend = new DOCXServlet( $caller->aParams );
 
-		//Prepare response
-		$response = array(
+		// Prepare response
+		$response = [
 			'mime-type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 			'filename'  => '%s.docx',
 			'content'   => ''
-		);
+		];
 
 		if ( RequestContext::getMain()->getRequest()->getVal( 'debugformat', '' ) == 'html' ) {
 			$response['content'] = $page['dom']->saveHTML();
@@ -90,7 +96,7 @@ class BsExportModuleDOCX implements BsUniversalExportModule {
 			return $response;
 		}
 
-		$response['content'] = $DOCXBackend->createDOCX($page['dom'], $template);
+		$response['content'] = $DOCXBackend->createDOCX( $page['dom'], $template );
 
 		$response['filename'] = sprintf(
 			$response['filename'],
@@ -108,8 +114,11 @@ class BsExportModuleDOCX implements BsUniversalExportModule {
 	public function getOverview() {
 		$moduleOverviewView = new ViewExportModuleOverview();
 
-		$moduleOverviewView->setOption( 'module-title', wfMessage( 'bs-uemoduledocx-overview-title' )->text() );
-		$moduleOverviewView->setOption( 'module-description', wfMessage( 'bs-uemoduledocx-overview-description' )->text() );
+		$moduleOverviewView->setOption( 'module-title', wfMessage( 'bs-uemoduledocx-overview-title' )
+			->text() );
+		$moduleOverviewView
+			->setOption( 'module-description', wfMessage( 'bs-uemoduledocx-overview-description' )
+			->text() );
 		$moduleOverviewView->setOption( 'module-bodycontent', '' );
 
 		$webserviceStateView = new ViewBaseElement();
@@ -121,28 +130,28 @@ class BsExportModuleDOCX implements BsUniversalExportModule {
 			->makeConfig( 'bsg' );
 
 		$webServiceUrl = $config->get( 'UEModuleDOCXDOCXServiceURL' );
-		$webserviceState = wfMessage('bs-uemoduledocx-overview-webservice-state-not-ok')->plain();
+		$webserviceState = wfMessage( 'bs-uemoduledocx-overview-webservice-state-not-ok' )->plain();
 		$color = 'red';
-		if( BsConnectionHelper::testUrlForTimeout( $webServiceUrl ) ) {
+		if ( BsConnectionHelper::testUrlForTimeout( $webServiceUrl ) ) {
 			$color = 'green';
-			$webserviceState = wfMessage('bs-uemoduledocx-overview-webservice-state-ok')->plain();
+			$webserviceState = wfMessage( 'bs-uemoduledocx-overview-webservice-state-ok' )->plain();
 
 			$webserviceUrlView = new ViewBaseElement();
 			$webserviceUrlView->setTemplate(
 				'{LABEL}: <a href="{URL}" target="_blank">{URL}</a><br/>'
 			);
-			$webserviceUrlView->addData(array(
-				'LABEL' => wfMessage('bs-uemoduledocx-overview-webservice-webadmin')->plain(),
+			$webserviceUrlView->addData( [
+				'LABEL' => wfMessage( 'bs-uemoduledocx-overview-webservice-webadmin' )->plain(),
 				'URL'   => $webServiceUrl,
-			));
+			] );
 			$moduleOverviewView->addItem( $webserviceUrlView );
 		}
 
-		$webserviceStateView->addData(array(
-			'LABEL' => wfMessage('bs-uemoduledocx-overview-webservice-state')->plain(),
+		$webserviceStateView->addData( [
+			'LABEL' => wfMessage( 'bs-uemoduledocx-overview-webservice-state' )->plain(),
 			'COLOR' => $color,
 			'STATE' => $webserviceState
-		));
+		] );
 
 		$moduleOverviewView->addItem( $webserviceStateView );
 

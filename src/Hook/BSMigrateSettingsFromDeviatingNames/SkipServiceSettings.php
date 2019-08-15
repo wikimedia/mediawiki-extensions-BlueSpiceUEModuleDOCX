@@ -5,7 +5,7 @@ namespace BlueSpice\UEModuleDOCX\Hook\BSMigrateSettingsFromDeviatingNames;
 class SkipServiceSettings extends \BlueSpice\Hook\BSMigrateSettingsFromDeviatingNames {
 
 	protected function skipProcessing() {
-		if( in_array( $this->oldName, $this->getSkipSettings() ) ) {
+		if ( in_array( $this->oldName, $this->getSkipSettings() ) ) {
 			return false;
 		}
 		return true;
@@ -15,6 +15,9 @@ class SkipServiceSettings extends \BlueSpice\Hook\BSMigrateSettingsFromDeviating
 		$this->skip = true;
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function getSkipSettings() {
 		return [
 			'MW::UEModuleDOCX::DOCXServiceURL',
