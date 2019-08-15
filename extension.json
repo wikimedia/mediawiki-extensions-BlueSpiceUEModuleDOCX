@@ -36,11 +36,11 @@
 		]
 	},
 	"AutoloadClasses": {
-		"UEModuleDOCX": "UEModuleDOCX.class.php",
-		"BsExportModuleDOCX": "includes/ExportModuleDOCX.class.php",
-		"BsDOCXServlet": "includes/DOCXServlet.class.php",
-		"BsDOCXPageProvider": "includes/DOCXPageProvider.class.php",
-		"BsDOCXTemplateProvider": "includes/DOCXTemplateProvider.class.php"
+		"UEModuleDOCX": "UEModuleDOCX.php",
+		"ExportModuleDOCX": "includes/ExportModuleDOCX.php",
+		"DOCXServlet": "includes/DOCXServlet.php",
+		"DOCXPageProvider": "includes/DOCXPageProvider.php",
+		"DOCXTemplateProvider": "includes/DOCXTemplateProvider.php"
 	},
 	"AutoloadNamespaces": {
 		"BlueSpice\\UEModuleDOCX\\": "src/"

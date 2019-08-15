@@ -6,6 +6,9 @@ use BlueSpice\ConfigDefinition\BooleanSetting;
 
 class SuppressNS extends BooleanSetting {
 
+	/**
+	 * @return array
+	 */
 	public function getPaths() {
 		return [
 			static::MAIN_PATH_FEATURE . '/' . static::FEATURE_EXPORT . '/BlueSpiceUEModuleDOCX',
@@ -14,6 +17,9 @@ class SuppressNS extends BooleanSetting {
 		];
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getLabelMessageKey() {
 		return 'bs-uemoduledocx-pref-SuppressNS';
 	}
