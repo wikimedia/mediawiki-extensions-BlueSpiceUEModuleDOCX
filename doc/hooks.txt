@@ -1,4 +1,4 @@
-==UEModuleDOCX.class.php==
+==UEModuleDOCX.php==
 
 'BSUEModuleDOCXBeforeCreateWidget':
  $this:
@@ -6,7 +6,7 @@
  &$aLinks:
  $aCurrentQueryParams:
 
-==DOCXPageProvider.class.php==
+==DOCXPageProvider.php==
 
 'BSUEModuleDOCXbeforeGetPage':
 &$aParams:
@@ -31,7 +31,7 @@ $oTitle:
 $oDOMXPath:
  &$aClassesToRemove:
 
-==DOCXServlet.class.php==
+==DOCXServlet.php==
 
 'BSUEModuleDOCXCreateDOCXBeforeSend':
 $this:
@@ -65,7 +65,7 @@ $this:
  $oDOMXPath:
 
 
-==ExportModuleDOCX.class.php==
+==ExportModuleDOCX.php==
 
 'BSUEModuleDOCXBeforeCreateDOCX':
 $this:
