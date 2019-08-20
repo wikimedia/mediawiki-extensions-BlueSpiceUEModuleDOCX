@@ -92,7 +92,7 @@ class DOCXServlet {
 		}
 
 		// Now do the rendering
-		// We re-send the paramters but this time without the file.
+		// We re-send the parameters but this time without the file.
 		unset( $options['postData']['templateFile'] );
 		unset( $options['postData']['fileType'] );
 
