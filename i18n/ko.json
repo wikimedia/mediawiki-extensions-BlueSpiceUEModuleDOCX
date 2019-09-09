@@ -5,6 +5,7 @@
 		]
 	},
 	"bs-uemoduledocx-extension-description": "DOCX로 내보내기를 활성화합니다",
+	"bs-uemoduledocx-pref-SuppressNS": "DOCX에서 이름공간 접두어 숨김",
 	"bs-uemoduledocx-widgetlink-single-text": "DOCX 단일 문서",
 	"bs-uemoduledocx-widgetlink-single-title": "이 문서를 DOCX로 내보냅니다.",
 	"bs-uemoduledocx-overview-title": "마이크로소프트&reg; 오피스 오픈 XML (DOCX)",
