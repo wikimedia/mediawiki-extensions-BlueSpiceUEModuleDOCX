@@ -1,6 +1,6 @@
 {
 	"name": "BlueSpiceUEModuleDOCX",
-	"version": "3.1.0",
+	"version": "3.2.0-alpha",
 	"license-name": "GPL-3.0-only",
 	"url": "https://en.wiki.bluespice.com/wiki/Reference:UEModuleDOCX",
 	"author": [
@@ -10,8 +10,8 @@
 	"requires": {
 		"MediaWiki": "~1.31",
 		"extensions": {
-			"BlueSpiceFoundation": "~3.1",
-			"BlueSpiceUniversalExport": "~3.1"
+			"BlueSpiceFoundation": "~3.2",
+			"BlueSpiceUniversalExport": "~3.2"
 		}
 	},
 	"type": "bluespice",
