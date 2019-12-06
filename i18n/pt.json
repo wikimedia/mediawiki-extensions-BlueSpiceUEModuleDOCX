@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mansil alfalb",
+			"Hamilton Abreu"
+		]
+	},
+	"bs-uemoduledocx-extension-description": "Permite a exportação para DOCX",
+	"bs-uemoduledocx-pref-SuppressNS": "Oculta o prefixo do espaço nominal no DOCX",
+	"bs-uemoduledocx-widgetlink-single-title": "Exportar esta página como DOCX.",
+	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
+	"bs-uemoduledocx-overview-description": "Exporta páginas para formato DOCX da Microsoft.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "indisponível",
+	"bs-uemoduledocx-overview-webservice-state-ok": "disponível"
+}
