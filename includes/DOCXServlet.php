@@ -273,7 +273,7 @@ class DOCXServlet {
 			// TODO: This is a quickfix for MW 1.19+ --> find better solution
 			if ( $image instanceof File && $image->exists() ) {
 				$fileRepoLocalRef = $image->getRepo()->getLocalReference( $image->getPath() );
-				if ( !is_null( $fileRepoLocalRef ) ) {
+				if ( $fileRepoLocalRef !== null ) {
 					$absoluteFileSystemPath = $fileRepoLocalRef->getPath();
 				}
 				$srcFilename = $image->getName();
