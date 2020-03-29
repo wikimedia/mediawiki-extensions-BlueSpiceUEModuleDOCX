@@ -13,6 +13,8 @@
  * @filesource
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * UniversalExport DOCXServlet class.
  * @package BlueSpice_Extensions
@@ -254,6 +256,7 @@ class DOCXServlet {
 	 * @return bool Well, always true.
 	 */
 	protected function findFiles( &$html ) {
+		$repoGroup = MediaWikiServices::getInstance()->getRepoGroup();
 		// Find all images
 		$imageElements = $html->getElementsByTagName( 'img' );
 		foreach ( $imageElements as $imageElement ) {
@@ -268,7 +271,7 @@ class DOCXServlet {
 				$tmpFilename = substr( $tmpFilename, strpos( $tmpFilename, '-' ) + 1 );
 			}
 			$fileTitle = Title::newFromText( $tmpFilename, NS_FILE );
-			$image = RepoGroup::singleton()->findFile( $fileTitle );
+			$image = $repoGroup->findFile( $fileTitle );
 
 			// TODO: This is a quickfix for MW 1.19+ --> find better solution
 			if ( $image instanceof File && $image->exists() ) {
