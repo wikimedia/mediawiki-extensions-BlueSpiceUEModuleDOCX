@@ -330,5 +330,6 @@ class DOCXServlet {
 		// TODO RBV (08.02.11 15:56): What about $wgUploadDirectory?
 		return $newUrl;
 	}
+
 	// </editor-fold>
 }
