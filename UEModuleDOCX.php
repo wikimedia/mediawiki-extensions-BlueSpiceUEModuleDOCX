@@ -42,7 +42,10 @@ class UEModuleDOCX extends BsExtensionMW {
 		$this->setHook( 'BSUniversalExportGetWidget' );
 		$this->setHook( 'BSUniversalExportSpecialPageExecute' );
 		// LACK OF ICON
-		$this->setHook( 'SkinTemplateOutputPageBeforeExec' );
+		$this->setHook(
+			'ChameleonSkinTemplateOutputPageBeforeExec',
+			'onSkinTemplateOutputPageBeforeExec'
+		);
 	}
 
 	/**
