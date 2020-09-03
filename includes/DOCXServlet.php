@@ -51,7 +51,7 @@ class DOCXServlet {
 		$tmpDOCXFile = BS_DATA_DIR . '/UEModuleDOCX/' . $this->params['document-token'] . '.docx';
 		file_put_contents( $tmpHtmlFile, $HtmlDOMXML );
 
-		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
+		$config = MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
 		$options = [
@@ -137,7 +137,7 @@ class DOCXServlet {
 	 * Uploads all files found in the markup by the "findFiles" method.
 	 */
 	protected function uploadFiles() {
-		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
+		$config = MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
 		foreach ( $this->filesList as $type => $filesList ) {
