@@ -12,6 +12,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GPL-3.0-only
  * @filesource
  */
+use MediaWiki\MediaWikiServices;
 
 /**
  * UniversalExport ExportModuleDOCX class.
@@ -36,7 +37,7 @@ class ExportModuleDOCX implements BsUniversalExportModule {
 		$caller->aParams['article-id'] = $caller->oRequestedTitle->getArticleID();
 		$caller->aParams['oldid']      = $wgRequest->getInt( 'oldid', 0 );
 
-		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
+		$config = MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
 		if ( $config->get( 'UEModuleDOCXSuppressNS' ) ) {
@@ -126,7 +127,7 @@ break;
 			'{LABEL}: <span style="font-weight: bold; color:{COLOR}">{STATE}</span>'
 			);
 
-		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
+		$config = MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
 		$webServiceUrl = $config->get( 'UEModuleDOCXDOCXServiceURL' );
