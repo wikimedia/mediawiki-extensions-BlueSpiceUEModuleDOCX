@@ -46,14 +46,21 @@ class ExportModuleDOCX implements BsUniversalExportModule {
 		// If we are in history mode and we are relative to an oldid
 		$caller->aParams['direction'] = $wgRequest->getVal( 'direction', '' );
 		if ( !empty( $caller->aParams['direction'] ) ) {
-			$currentRevision = Revision::newFromId( $caller->aParams['oldid'] );
+			$lookup = MediaWikiServices::getInstance()->getRevisionLookup();
+			$currentRevision = $lookup->getRevisionById( $caller->aParams['oldid'] );
 			switch ( $caller->aParams['direction'] ) {
-				case 'next': $currentRevision = $currentRevision->getNext();
+				case 'next':
+					$currentRevision = $lookup->getNextRevision(
+						$currentRevision
+					);
 					break;
-				case 'prev': $currentRevision = $currentRevision->getPrevious();
+				case 'prev':
+					$currentRevision = $lookup->getNextRevision(
+						$currentRevision
+					);
 					break;
 				default:
-break;
+				break;
 			}
 			if ( $currentRevision !== null ) {
 				$caller->aParams['oldid'] = $currentRevision->getId();
