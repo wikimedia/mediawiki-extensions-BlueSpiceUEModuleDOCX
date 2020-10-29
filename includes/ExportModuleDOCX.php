@@ -60,7 +60,7 @@ class ExportModuleDOCX implements BsUniversalExportModule {
 					);
 					break;
 				default:
-				break;
+					break;
 			}
 			if ( $currentRevision !== null ) {
 				$caller->aParams['oldid'] = $currentRevision->getId();
