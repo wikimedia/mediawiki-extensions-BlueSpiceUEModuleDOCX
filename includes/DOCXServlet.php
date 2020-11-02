@@ -76,7 +76,14 @@ class DOCXServlet {
 			$options['postData']['debug'] = "true";
 		}
 
-		\Hooks::run( 'BSUEModuleDOCXCreateDOCXBeforeSend', [ $this, &$options, $HtmlDOM ] );
+		MediaWikiServices::getInstance()->getHookContainer()->run(
+			'BSUEModuleDOCXCreateDOCXBeforeSend',
+			[
+				$this,
+				&$options,
+				$HtmlDOM
+			]
+		);
 
 		$HttpEngine = Http::$httpEngine;
 		Http::$httpEngine = 'curl';
@@ -177,7 +184,14 @@ class DOCXServlet {
 				);
 			}
 
-			\Hooks::run( 'BSUEModuleDOCXUploadFilesBeforeSend', [ $this, &$postData, $type ] );
+			MediaWikiServices::getInstance()->getHookContainer()->run(
+				'BSUEModuleDOCXUploadFilesBeforeSend',
+				[
+					$this,
+					&$postData,
+					$type
+				]
+			);
 
 			$HttpEngine = Http::$httpEngine;
 			Http::$httpEngine = 'curl';
@@ -286,22 +300,40 @@ class DOCXServlet {
 			// TODO RBV (05.04.12 11:48): Check if urlencode has side effects
 			$imageElement->setAttribute( 'src', 'images/' . urlencode( $srcFilename ) );
 			$fileName = $srcFilename;
-			\Hooks::run(
+			MediaWikiServices::getInstance()->getHookContainer()->run(
 				'BSUEModuleDOCXFindFiles',
-				[ $this, $imageElement, $absoluteFileSystemPath, $fileName, 'images' ]
+				[
+					$this,
+					$imageElement,
+					$absoluteFileSystemPath,
+					$fileName,
+					'images'
+				]
 			);
-			\Hooks::run(
+			MediaWikiServices::getInstance()->getHookContainer()->run(
 				'BSUEModuleDOCXWebserviceFindFiles',
-				[ $this, $imageElement, $absoluteFileSystemPath, $fileName, 'images' ]
+				[
+					$this,
+					$imageElement,
+					$absoluteFileSystemPath,
+					$fileName,
+					'images'
+				]
 			);
 			$this->filesList['images'][$fileName] = $absoluteFileSystemPath;
 		}
 
 		$DOMXPath = new DOMXPath( $html );
 
-		\Hooks::run(
+		MediaWikiServices::getInstance()->getHookContainer()->run(
 			'BSUEModuleDOCXAfterFindFiles',
-			[ $this, $html, &$this->filesList, $this->params, $DOMXPath ]
+			[
+				$this,
+				$html,
+				&$this->filesList,
+				$this->params,
+				$DOMXPath
+			]
 		);
 		return true;
 	}
