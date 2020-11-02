@@ -12,6 +12,8 @@
  * @filesource
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * UniversalExport DOCXPageProvider class.
  * @package BlueSpice_Extensions
@@ -25,7 +27,12 @@ class DOCXPageProvider {
 	 * @return array
 	 */
 	public static function getPage( $params ) {
-		\Hooks::run( 'BSUEModuleDOCXbeforeGetPage', [ &$params ] );
+		MediaWikiServices::getInstance()->getHookContainer()->run(
+			'BSUEModuleDOCXbeforeGetPage',
+			[
+				&$params
+			]
+		);
 
 		$title = Title::newFromID( $params['article-id'] );
 		if ( $title == null ) {
@@ -55,7 +62,12 @@ class DOCXPageProvider {
 			'bodycontent-element'  => $bodyContent,
 		];
 
-		\Hooks::run( 'BSUEModuleDOCXgetPage', [ $title, &$page, &$params, $DOMXPath ] );
+		MediaWikiServices::getInstance()->getHookContainer()->run( 'BSUEModuleDOCXgetPage', [
+			$title,
+			&$page,
+			&$params,
+			$DOMXPath
+		] );
 		return $page;
 	}
 
@@ -70,9 +82,15 @@ class DOCXPageProvider {
 	private static function cleanUpDOM( $title, $pageDOM, $params ) {
 		$classesToRemove = [ 'editsection', 'bs-universalexport-exportexclude', 'magnify' ];
 		$DOMXPath = new DOMXPath( $pageDOM );
-		\Hooks::run(
+		MediaWikiServices::getInstance()->getHookContainer()->run(
 			'BSUEModuleDOCXcleanUpDOM',
-			[ $title, $pageDOM, &$params, $DOMXPath, &$classesToRemove ]
+			[
+				$title,
+				$pageDOM,
+				&$params,
+				$DOMXPath,
+				&$classesToRemove
+			]
 		);
 
 		// Remove script-Tags

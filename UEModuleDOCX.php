@@ -28,6 +28,8 @@
  * @filesource
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Base class for UniversalExport DOCX Module extension
  * @package BlueSpice_Extensions
@@ -86,9 +88,14 @@ class UEModuleDOCX extends BsExtensionMW {
 			'TEXT'    => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 		];
 
-		\Hooks::run(
+		MediaWikiServices::getInstance()->getHookContainer()->run(
 			'BSUEModuleDOCXBeforeCreateWidget',
-			[ $this, $specialPage, &$links, $currentQueryParams ]
+			[
+				$this,
+				$specialPage,
+				&$links,
+				$currentQueryParams
+			]
 		);
 
 		$DOCXView = new ViewBaseElement();

@@ -82,7 +82,14 @@ class ExportModuleDOCX implements BsUniversalExportModule {
 
 		$page = DOCXPageProvider::getPage( $caller->aParams );
 
-		\Hooks::run( 'BSUEModuleDOCXBeforeCreateDOCX', [ $this, &$template, $caller ] );
+		MediaWikiServices::getInstance()->getHookContainer()->run(
+			'BSUEModuleDOCXBeforeCreateDOCX',
+			[
+				$this,
+				&$template,
+				$caller
+			]
+		);
 
 		$DOCXBackend = new DOCXServlet( $caller->aParams );
 
