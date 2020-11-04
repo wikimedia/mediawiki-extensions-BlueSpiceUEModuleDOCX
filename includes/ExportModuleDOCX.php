@@ -13,12 +13,15 @@
  * @filesource
  */
 
+use BlueSpice\UniversalExport\ExportModule;
+use MediaWiki\MediaWikiServices;
+
 /**
  * UniversalExport ExportModuleDOCX class.
  * @package BlueSpice_Extensions
  * @subpackage UEModuleDOCX
  */
-class ExportModuleDOCX implements BsUniversalExportModule {
+class ExportModuleDOCX extends ExportModule {
 
 	/**
 	 * Implementation of BsUniversalExportModule interface.

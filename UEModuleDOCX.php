@@ -39,22 +39,8 @@ class UEModuleDOCX extends BsExtensionMW {
 	 * Initialization of UEModuleDOCX extension
 	 */
 	protected function initExt() {
-		$this->setHook( 'BSUniversalExportSpecialPageExecute' );
 		// LACK OF ICON
 		$this->setHook( 'SkinTemplateOutputPageBeforeExec' );
-	}
-
-	/**
-	 * Event-Handler method for the 'BSUniversalExportCreateWidget' event.
-	 * Registers the DOCX Module with the UniversalExport Extension.
-	 * @param SpecialUniversalExport $specialPage
-	 * @param string $param
-	 * @param array &$modules
-	 * @return true
-	 */
-	public function onBSUniversalExportSpecialPageExecute( $specialPage, $param, &$modules ) {
-		$modules['docx'] = new ExportModuleDOCX();
-		return true;
 	}
 
 	/**
