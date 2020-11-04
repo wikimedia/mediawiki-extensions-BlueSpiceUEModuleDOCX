@@ -28,6 +28,11 @@
 					}
 				}
 			}
+		},
+		"BlueSpiceUniversalExport": {
+			"ModuleRegistry": {
+				"docx": "\\ExportModuleDOCX::factory"
+			}
 		}
 	},
 	"MessagesDirs": {
