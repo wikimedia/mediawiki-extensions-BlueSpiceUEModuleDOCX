@@ -39,7 +39,6 @@ class UEModuleDOCX extends BsExtensionMW {
 	 * Initialization of UEModuleDOCX extension
 	 */
 	protected function initExt() {
-		$this->setHook( 'BSUniversalExportGetWidget' );
 		$this->setHook( 'BSUniversalExportSpecialPageExecute' );
 		// LACK OF ICON
 		$this->setHook( 'SkinTemplateOutputPageBeforeExec' );
@@ -55,50 +54,6 @@ class UEModuleDOCX extends BsExtensionMW {
 	 */
 	public function onBSUniversalExportSpecialPageExecute( $specialPage, $param, &$modules ) {
 		$modules['docx'] = new ExportModuleDOCX();
-		return true;
-	}
-
-	/**
-	 * Hook-Handler method for the 'BSUniversalExportGetWidget' event.
-	 * @param UniversalExport $universalExport
-	 * @param array &$modules
-	 * @param Title $specialPage
-	 * @param Title $currentTitle
-	 * @param array $currentQueryParams
-	 * @return bool
-	 */
-	public function onBSUniversalExportGetWidget(
-		$universalExport,
-		&$modules,
-		$specialPage,
-		$currentTitle,
-		$currentQueryParams
-	) {
-		$currentQueryParams['ue[module]'] = 'docx';
-		$links = [];
-		$links['docx-single'] = [
-			'URL'     => $specialPage->getLinkUrl( $currentQueryParams ),
-			'TITLE'   => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
-			'CLASSES' => 'bs-uemoduledocx-single',
-			'TEXT'    => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
-		];
-
-		\Hooks::run(
-			'BSUEModuleDOCXBeforeCreateWidget',
-			[ $this, $specialPage, &$links, $currentQueryParams ]
-		);
-
-		$DOCXView = new ViewBaseElement();
-		$DOCXView->setAutoWrap( '<ul>###CONTENT###</ul>' );
-		$DOCXView->setTemplate(
-			'<li><a href="{URL}" rel="nofollow" title="{TITLE}" class="{CLASSES}">{TEXT}</a></li>'
-		);
-
-		foreach ( $links as $key => $data ) {
-			$DOCXView->addData( $data );
-		}
-
-		$modules[] = $DOCXView;
 		return true;
 	}
 
