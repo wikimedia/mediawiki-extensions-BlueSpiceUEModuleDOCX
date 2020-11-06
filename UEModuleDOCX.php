@@ -39,42 +39,6 @@ class UEModuleDOCX extends BsExtensionMW {
 	 * Initialization of UEModuleDOCX extension
 	 */
 	protected function initExt() {
-		// LACK OF ICON
-		$this->setHook(
-			'ChameleonSkinTemplateOutputPageBeforeExec',
-			'onSkinTemplateOutputPageBeforeExec'
-		);
 	}
 
-	/**
-	 * Adds an link to the headline
-	 * NOT YET ENABLED BECAUSE LACK OF ICON!
-	 * @param Skin &$skin
-	 * @param BaseTemplate &$template
-	 * @return bool always true
-	 */
-	public function onSkinTemplateOutputPageBeforeExec( &$skin, &$template ) {
-		$currentQueryParams = $this->getRequest()->getValues();
-		if ( isset( $currentQueryParams['title'] ) ) {
-			$title = $currentQueryParams['title'];
-		} else {
-			$title = '';
-		}
-		$specialPageParameter = BsCore::sanitize( $title, '', BsPARAMTYPE::STRING );
-		$specialPage = SpecialPage::getTitleFor( 'UniversalExport', $specialPageParameter );
-		if ( isset( $currentQueryParams['title'] ) ) { unset( $currentQueryParams['title'] );
-		}
-		$currentQueryParams['ue[module]'] = 'docx';
-		$contentActions = [
-			'id' => 'docx',
-			'href' => $specialPage->getLinkUrl( $currentQueryParams ),
-			'title' => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
-			'text' => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
-			'class' => 'bs-ue-export-link',
-			'iconClass' => 'icon-file-word'
-		];
-
-		$template->data['bs_export_menu'][] = $contentActions;
-		return true;
-	}
 }
