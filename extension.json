@@ -71,7 +71,8 @@
 		}
 	},
 	"Hooks": {
-		"BSMigrateSettingsFromDeviatingNames": "\\BlueSpice\\UEModuleDOCX\\Hook\\BSMigrateSettingsFromDeviatingNames\\SkipServiceSettings::callback"
+		"BSMigrateSettingsFromDeviatingNames": "\\BlueSpice\\UEModuleDOCX\\Hook\\BSMigrateSettingsFromDeviatingNames\\SkipServiceSettings::callback",
+		"ChameleonSkinTemplateOutputPageBeforeExec": "\\BlueSpice\\UEModuleDOCX\\Hook\\ChameleonSkinTemplateOutputPageBeforeExec\\AddWidget::callback"
 	},
 	"load_composer_autoloader": true,
 	"manifest_version": 2
