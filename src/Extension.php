@@ -28,44 +28,15 @@
  * @filesource
  */
 
+namespace BlueSpice\UEModuleDOCX;
+
+use BlueSpice\Extension as BaseExtension;
+
 /**
  * Base class for UniversalExport DOCX Module extension
  * @package BlueSpice_Extensions
  * @subpackage UEModuleDOCX
  */
-class UEModuleDOCX extends BsExtensionMW {
 
-	/**
-	 * Initialization of UEModuleDOCX extension
-	 */
-	protected function initExt() {
-		// LACK OF ICON
-		$this->setHook( 'SkinTemplateOutputPageBeforeExec' );
-	}
-
-	/**
-	 * Adds an link to the headline
-	 * NOT YET ENABLED BECAUSE LACK OF ICON!
-	 * @param Skin &$skin
-	 * @param BaseTemplate &$template
-	 * @return bool always true
-	 */
-	public function onSkinTemplateOutputPageBeforeExec( &$skin, &$template ) {
-		/** @var \BlueSpice\UniversalExport\Util $util */
-		$util = \MediaWiki\MediaWikiServices::getInstance()->getService(
-			'BSUniversalExportUtils'
-		);
-
-		$contentActions = [
-			'id' => 'docx',
-			'href' => $util->getExportLink( $this->getRequest(), 'docx' ),
-			'title' => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
-			'text' => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
-			'class' => 'bs-ue-export-link',
-			'iconClass' => 'icon-file-word'
-		];
-
-		$template->data['bs_export_menu'][] = $contentActions;
-		return true;
-	}
+class Extension extends BaseExtension {
 }

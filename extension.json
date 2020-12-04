@@ -19,7 +19,7 @@
 		"BlueSpiceFoundation": {
 			"Extensions": {
 				"BlueSpiceUEModuleDOCX": {
-					"className": "UEModuleDOCX",
+					"className": "\\BlueSpice\\UEModuleDOCX\\Extension",
 					"extPath": "/BlueSpiceUEModuleDOCX",
 					"package": "BlueSpice Pro",
 					"status": "stable",
@@ -41,7 +41,6 @@
 		]
 	},
 	"AutoloadClasses": {
-		"UEModuleDOCX": "UEModuleDOCX.php",
 		"ExportModuleDOCX": "includes/ExportModuleDOCX.php",
 		"DOCXServlet": "includes/DOCXServlet.php",
 		"DOCXPageProvider": "includes/DOCXPageProvider.php",
