@@ -28,17 +28,14 @@
  * @filesource
  */
 
+namespace BlueSpice\UEModuleDOCX;
+
+use BlueSpice\Extension as BaseExtension;
+
 /**
  * Base class for UniversalExport DOCX Module extension
  * @package BlueSpice_Extensions
  * @subpackage UEModuleDOCX
  */
-class UEModuleDOCX extends BsExtensionMW {
-
-	/**
-	 * Initialization of UEModuleDOCX extension
-	 */
-	protected function initExt() {
-	}
-
+class Extension extends BaseExtension {
 }
