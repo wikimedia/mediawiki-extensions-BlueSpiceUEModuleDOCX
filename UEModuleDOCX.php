@@ -65,20 +65,14 @@ class UEModuleDOCX extends BsExtensionMW {
 	 * @return bool always true
 	 */
 	public function onSkinTemplateOutputPageBeforeExec( &$skin, &$template ) {
-		$currentQueryParams = $this->getRequest()->getValues();
-		if ( isset( $currentQueryParams['title'] ) ) {
-			$title = $currentQueryParams['title'];
-		} else {
-			$title = '';
-		}
-		$specialPageParameter = BsCore::sanitize( $title, '', BsPARAMTYPE::STRING );
-		$specialPage = SpecialPage::getTitleFor( 'UniversalExport', $specialPageParameter );
-		if ( isset( $currentQueryParams['title'] ) ) { unset( $currentQueryParams['title'] );
-		}
-		$currentQueryParams['ue[module]'] = 'docx';
+		/** @var \BlueSpice\UniversalExport\Util $util */
+		$util = \MediaWiki\MediaWikiServices::getInstance()->getService(
+			'BSUniversalExportUtils'
+		);
+
 		$contentActions = [
 			'id' => 'docx',
-			'href' => $specialPage->getLinkUrl( $currentQueryParams ),
+			'href' => $util->getExportLink( $this->getRequest(), 'docx' ),
 			'title' => wfMessage( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
 			'text' => wfMessage( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 			'class' => 'bs-ue-export-link',
