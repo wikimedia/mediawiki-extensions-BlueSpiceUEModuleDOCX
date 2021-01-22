@@ -346,7 +346,7 @@ class DOCXServlet {
 	 * @return string The local file system path
 	 */
 	public function getFileSystemPath( $url ) {
-		if ( $url{0} !== '/' || strpos( $url, $this->params['webroot-filesystempath'] ) === 0 ) {
+		if ( substr( $url, 0, 1 ) !== '/' || strpos( $url, $this->params['webroot-filesystempath'] ) === 0 ) {
 			// not relative to webroot or absolute filesystempath
 			return $url;
 		}
