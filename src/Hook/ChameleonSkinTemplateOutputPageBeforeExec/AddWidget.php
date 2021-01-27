@@ -3,6 +3,7 @@
 namespace BlueSpice\UEModuleDOCX\Hook\ChameleonSkinTemplateOutputPageBeforeExec;
 
 use BlueSpice\Hook\ChameleonSkinTemplateOutputPageBeforeExec;
+use BlueSpice\UniversalExport\ModuleFactory;
 
 class AddWidget extends ChameleonSkinTemplateOutputPageBeforeExec {
 	/**
@@ -14,19 +15,15 @@ class AddWidget extends ChameleonSkinTemplateOutputPageBeforeExec {
 	}
 
 	protected function doProcess() {
-		$currentQueryParams = $this->getContext()->getRequest()->getValues();
-		$currentQueryParams['ue[module]'] = 'docx';
-		$title = '';
-		if ( isset( $currentQueryParams['title'] ) ) {
-			$title = $currentQueryParams['title'];
-			unset( $currentQueryParams['title'] );
-		}
-		$specialPage = $this->getServices()->getSpecialPageFactory()->getPage(
-			'UniversalExport'
+		/** @var ModuleFactory $moduleFactory */
+		$moduleFactory = $this->getServices()->getService(
+			'BSUniversalExportModuleFactory'
 		);
+		$module = $moduleFactory->newFromName( 'docx' );
+
 		$contentActions = [
 			'id' => 'docx',
-			'href' => $specialPage->getPageTitle( $title )->getLinkUrl( $currentQueryParams ),
+			'href' => $module->getExportLink( $this->getContext()->getRequest() ),
 			'title' => $this->msg( 'bs-uemoduledocx-widgetlink-single-title' )->plain(),
 			'text' => $this->msg( 'bs-uemoduledocx-widgetlink-single-text' )->plain(),
 			'class' => 'bs-ue-export-link',
