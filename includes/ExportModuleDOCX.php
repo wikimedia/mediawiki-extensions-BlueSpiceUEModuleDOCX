@@ -13,8 +13,8 @@
  * @filesource
  */
 
+use BlueSpice\UEModuleDOCX\ExportSubaction\Subpages;
 use BlueSpice\UniversalExport\ExportModule;
-use MediaWiki\MediaWikiServices;
 
 /**
  * UniversalExport ExportModuleDOCX class.
@@ -24,89 +24,95 @@ use MediaWiki\MediaWikiServices;
 class ExportModuleDOCX extends ExportModule {
 
 	/**
-	 * Implementation of BsUniversalExportModule interface.
-	 * @param SpecialUniversalExport &$caller
-	 * @return array array(
-	 * 'mime-type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-	 * 'filename' => 'Filename.docx', 'content' => '8F3BC3025A7...'
-	 * );
+	 * @inheritDoc
 	 */
-	public function createExportFile( &$caller ) {
-		global $wgRequest;
-
-		$caller->aParams['title']         = $caller->oRequestedTitle->getPrefixedText();
-		$caller->aParams['display-title'] = $caller->oRequestedTitle->getPrefixedText();
-		$caller->aParams['article-id'] = $caller->oRequestedTitle->getArticleID();
-		$caller->aParams['oldid']      = $wgRequest->getInt( 'oldid', 0 );
-
-		$config = \BlueSpice\Services::getInstance()->getConfigFactory()
-			->makeConfig( 'bsg' );
-
-		if ( $config->get( 'UEModuleDOCXSuppressNS' ) ) {
+	protected function setParams( &$caller ) {
+		parent::setParams( $caller );
+		if ( $this->config->get( 'UEModuleDOCXSuppressNS' ) ) {
 			$caller->aParams['display-title'] = $caller->oRequestedTitle->getText();
 		}
-		// If we are in history mode and we are relative to an oldid
-		$caller->aParams['direction'] = $wgRequest->getVal( 'direction', '' );
-		if ( !empty( $caller->aParams['direction'] ) ) {
-			$currentRevision = Revision::newFromId( $caller->aParams['oldid'] );
-			switch ( $caller->aParams['direction'] ) {
-				case 'next': $currentRevision = $currentRevision->getNext();
-					break;
-				case 'prev': $currentRevision = $currentRevision->getPrevious();
-					break;
-				default:
-break;
-			}
-			if ( $currentRevision !== null ) {
-				$caller->aParams['oldid'] = $currentRevision->getId();
-			}
-		}
+	}
 
-		$caller->aParams['document-token'] = md5( $caller->oRequestedTitle->getPrefixedText() )
-			. '-'
-			. $caller->aParams['oldid'];
-		$caller->aParams['backend-url'] = $config->get(
+	/**
+	 * @inheritDoc
+	 */
+	public function getExportPermission() {
+		return 'uemoduledocx-export';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function setExportConnectionParams( &$caller ) {
+		parent::setExportConnectionParams( $caller );
+		$caller->aParams['backend-url'] = $this->config->get(
 			'UEModuleDOCXDOCXServiceURL'
 		);
+	}
 
-		$template = $config->get( 'UEModuleDOCXTemplatePath' )
-			. '/'
-			. $config->get( 'UEModuleDOCXDefaultTemplate' );
+	/**
+	 * @inheritDoc
+	 */
+	protected function getTemplateParams( $caller, $page ) {
+		$params = parent::getTemplateParams( $caller, $page );
 
-		$template = realpath( $template );
+		$templatePath = $this->config->get( 'UEModuleDOCXTemplatePath' ) . '/' .
+			$this->config->get( 'UEModuleDOCXDefaultTemplate' );
 
-		$page = DOCXPageProvider::getPage( $caller->aParams );
+		return array_merge( $params, [
+			'path' => $templatePath,
+			'realpath' => realpath( $templatePath ),
+			'dom' => $page['dom'],
+		] );
+	}
 
-		\Hooks::run( 'BSUEModuleDOCXBeforeCreateDOCX', [ $this, &$template, $caller ] );
+	/**
+	 * @inheritDoc
+	 */
+	protected function getTemplate( $params ) {
+		return DOCXTemplateProvider::getTemplate( $params );
+	}
 
-		$DOCXBackend = new DOCXServlet( $caller->aParams );
+	/**
+	 * @inheritDoc
+	 */
+	protected function getPage( $params ) {
+		return DOCXPageProvider::getPage( $params );
+	}
 
-		// Prepare response
-		$response = [
-			'mime-type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-			'filename'  => '%s.docx',
-			'content'   => ''
-		];
-
-		if ( RequestContext::getMain()->getRequest()->getVal( 'debugformat', '' ) == 'html' ) {
-			$response['content'] = $page['dom']->saveHTML();
-			$response['mime-type'] = 'text/html';
-			$response['filename'] = sprintf(
-				'%s.html',
-				$caller->oRequestedTitle->getPrefixedText()
-			);
-			$response['disposition'] = 'inline';
-			return $response;
-		}
-
-		$response['content'] = $DOCXBackend->createDOCX( $page['dom'], $template );
-
-		$response['filename'] = sprintf(
-			$response['filename'],
-			$caller->oRequestedTitle->getPrefixedText()
+	/**
+	 * @inheritDoc
+	 */
+	protected function modifyTemplateAfterContents( &$template, $page, $caller ) {
+		Hooks::run(
+			'BSUEModuleDOCXBeforeCreateDOCX',
+			[
+				$this,
+				&$template,
+				$caller
+			]
 		);
+	}
 
-		return $response;
+	/**
+	 * @inheritDoc
+	 */
+	protected function getResponseParams() {
+		return array_merge(
+			parent::getResponseParams(),
+			[
+				'mime-type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'filename'  => '%s.docx',
+			]
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getExportedContent( $caller, &$template ) {
+		$backend = new DOCXServlet( $caller->aParams );
+		return $backend->createDOCX( $template['dom'], $template['realpath'] );
 	}
 
 	/**
@@ -159,5 +165,25 @@ break;
 		$moduleOverviewView->addItem( $webserviceStateView );
 
 		return $moduleOverviewView;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSubactionHandlers() {
+		return [
+			'subpages' => Subpages::factory( $this )
+		];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getActionButtonDetails() {
+		return [
+			'title' => \Message::newFromKey( 'bs-uemoduledocx-widgetlink-single-text' ),
+			'text' => \Message::newFromKey( 'bs-uemoduledocx-widgetlink-single-text' ),
+			'iconClass' => 'icon-file-word'
+		];
 	}
 }

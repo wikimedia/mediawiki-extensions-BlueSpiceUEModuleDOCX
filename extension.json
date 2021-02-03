@@ -27,6 +27,20 @@
 						"UEModuleDOCXSuppressNS": "\\BlueSpice\\UEModuleDOCX\\ConfigDefinition\\SuppressNS::getInstance"
 					}
 				}
+			},
+			"PermissionRegistry": {
+				"uemoduledocx-export": {
+					"type": "namespace",
+					"roles": [
+						"reader"
+					]
+				},
+				"uemoduledocxsubpages-export": {
+					"type": "namespace",
+					"roles": [
+						"reader"
+					]
+				}
 			}
 		},
 		"BlueSpiceUniversalExport": {
@@ -40,6 +54,16 @@
 			"i18n"
 		]
 	},
+	"GroupPermissions": {
+		"*": {
+			"uemoduledocx-export": true,
+			"uemoduledocxsubpages-export": true
+		}
+	},
+	"AvailableRights": [
+		"uemoduledocx-export",
+		"uemoduledocxsubpages-export"
+	],
 	"AutoloadClasses": {
 		"ExportModuleDOCX": "includes/ExportModuleDOCX.php",
 		"DOCXServlet": "includes/DOCXServlet.php",
