@@ -39,7 +39,8 @@ class DOCXTemplateProvider {
 				$fileName = $fileInfo->getBasename();
 				$fileNameParts = explode( '.', $fileName );
 				$fileExtension = array_pop( $fileNameParts );
-				if ( strtoupper( $fileExtension ) != 'DOCX' ) { continue;
+				if ( strtoupper( $fileExtension ) != 'DOCX' ) {
+					continue;
 				}
 
 				$templateName = implode( '.', $fileNameParts );
@@ -55,5 +56,23 @@ class DOCXTemplateProvider {
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Shell function to comply with caller
+	 * @param array $params
+	 * @return array
+	 */
+	public static function getTemplate( $params ) {
+		// Make a dummy template
+		$contentTag = $params['dom']->createElement( 'content' );
+		$bodyTag = $params['dom']->createElement( 'body' );
+		$contentTag->setAttribute( 'key', 'content' );
+		$bodyTag->appendChild( $contentTag );
+		$params['dom']->appendChild( $bodyTag );
+
+		return array_merge( $params, [
+			'resources' => [],
+		] );
 	}
 }
