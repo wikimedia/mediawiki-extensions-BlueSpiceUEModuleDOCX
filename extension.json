@@ -22,11 +22,11 @@
 					"className": "\\BlueSpice\\UEModuleDOCX\\Extension",
 					"extPath": "/BlueSpiceUEModuleDOCX",
 					"package": "BlueSpice Pro",
-					"status": "stable",
-					"configDefinitions": {
-						"UEModuleDOCXSuppressNS": "\\BlueSpice\\UEModuleDOCX\\ConfigDefinition\\SuppressNS::getInstance"
-					}
+					"status": "stable"
 				}
+			},
+			"ConfigDefinitionRegistry": {
+				"UEModuleDOCXSuppressNS": "\\BlueSpice\\UEModuleDOCX\\ConfigDefinition\\SuppressNS::getInstance"
 			},
 			"PermissionRegistry": {
 				"uemoduledocx-export": {
