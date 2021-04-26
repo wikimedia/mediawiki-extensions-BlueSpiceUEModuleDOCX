@@ -18,5 +18,7 @@
 	"bs-uemoduledocx-widgetlink-subpages-text": "Short text for the link, that exports the page and it's subpages as DOCX",
 	"bs-uemoduledocx-widgetlink-subpages-title": "Title for the link, that exports the page and it's subpages as DOCX",
 	"action-uemoduledocxsubpages-export": "{{doc-action|uemoduledocxsubpages-export}}",
-	"right-uemoduledocxsubpages-export": "{{doc-right|uemoduledocxsubpages-export}}"
+	"right-uemoduledocxsubpages-export": "{{doc-right|uemoduledocxsubpages-export}}",
+	"action-uemoduledocx-export": "{{doc-action|uemoduledocx-export}}",
+	"right-uemoduledocx-export": "{{doc-right|uemoduledocx-export}}"
 }
