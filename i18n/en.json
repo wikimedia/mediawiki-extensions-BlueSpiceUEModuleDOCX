@@ -16,8 +16,8 @@
 	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX) state",
 	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX page with subpages",
 	"bs-uemoduledocx-widgetlink-subpages-title": "Export this page and all subpages as DOCX.",
-	"action-uemoduledocx-export": "exporting a page, including all sub pages, to DOCX",
-	"action-uemoduledocxsubpages-export": "exporting a page to DOCX",
+	"action-uemoduledocxsubpages-export": "exporting a page, including all sub pages, to DOCX",
 	"right-uemoduledocxsubpages-export": "Export a page, including all sub pages, to DOCX",
+	"action-uemoduledocx-export": "exporting a page to DOCX",
 	"right-uemoduledocx-export": "Export a page to DOCX"
 }

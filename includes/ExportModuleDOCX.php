@@ -15,6 +15,7 @@
 
 use BlueSpice\UEModuleDOCX\ExportSubaction\Subpages;
 use BlueSpice\UniversalExport\ExportModule;
+use BlueSpice\UniversalExport\ExportSpecification;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -27,10 +28,10 @@ class ExportModuleDOCX extends ExportModule {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setParams( &$caller ) {
-		parent::setParams( $caller );
+	protected function setParams( &$specification ) {
+		parent::setParams( $specification );
 		if ( $this->config->get( 'UEModuleDOCXSuppressNS' ) ) {
-			$caller->aParams['display-title'] = $caller->oRequestedTitle->getText();
+			$specification->setParam( 'display-title', $specification->getTitle()->getText() );
 		}
 	}
 
@@ -44,18 +45,18 @@ class ExportModuleDOCX extends ExportModule {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setExportConnectionParams( &$caller ) {
-		parent::setExportConnectionParams( $caller );
-		$caller->aParams['backend-url'] = $this->config->get(
+	protected function setExportConnectionParams( ExportSpecification &$specification ) {
+		parent::setExportConnectionParams( $specification );
+		$specification->setParam( 'backend-url', $this->config->get(
 			'UEModuleDOCXDOCXServiceURL'
-		);
+		) );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function getTemplateParams( $caller, $page ) {
-		$params = parent::getTemplateParams( $caller, $page );
+	protected function getTemplateParams( $specification, $page ) {
+		$params = parent::getTemplateParams( $specification, $page );
 
 		$templatePath = $this->config->get( 'UEModuleDOCXTemplatePath' ) . '/' .
 			$this->config->get( 'UEModuleDOCXDefaultTemplate' );
@@ -77,20 +78,20 @@ class ExportModuleDOCX extends ExportModule {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getPage( $params ) {
-		return DOCXPageProvider::getPage( $params );
+	protected function getPage( ExportSpecification $specification ) {
+		return DOCXPageProvider::getPage( $specification->getParams() );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function modifyTemplateAfterContents( &$template, $page, $caller ) {
+	protected function modifyTemplateAfterContents( &$template, $page, $specification ) {
 		MediaWikiServices::getInstance()->getHookContainer()->run(
 			'BSUEModuleDOCXBeforeCreateDOCX',
 			[
 				$this,
 				&$template,
-				$caller
+				$specification
 			]
 		);
 	}
@@ -111,8 +112,9 @@ class ExportModuleDOCX extends ExportModule {
 	/**
 	 * @inheritDoc
 	 */
-	protected function getExportedContent( $caller, &$template ) {
-		$backend = new DOCXServlet( $caller->aParams );
+	protected function getExportedContent( $specification, &$template ) {
+		$params = $specification->getParams();
+		$backend = new DOCXServlet( $params );
 		return $backend->createDOCX( $template['dom'], $template['realpath'] );
 	}
 
