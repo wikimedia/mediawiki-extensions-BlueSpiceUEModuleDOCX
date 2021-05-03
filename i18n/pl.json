@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Rail"
+		]
+	},
+	"action-uemoduledocx-export": "eksportowania stron do DOCX",
+	"right-uemoduledocx-export": "Wyeksportuj stronę do DOCX"
+}

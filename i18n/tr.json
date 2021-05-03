@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"BaRaN6161 TURK"
+			"BaRaN6161 TURK",
+			"Joseph"
 		]
 	},
 	"bs-uemoduledocx-extension-description": "DOCX'e aktarıma sağlar",
@@ -13,5 +14,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "mevcut değil",
 	"bs-uemoduledocx-overview-webservice-state-ok": "mevcut",
 	"bs-uemoduledocx-overview-webservice-webadmin": "DOCX Hizmeti (BS html2 DOCX) Web Arayüzü",
-	"bs-uemoduledocx-overview-webservice-state": "DOCX Hizmeti (BShtml2DOCX) durumu"
+	"bs-uemoduledocx-overview-webservice-state": "DOCX Hizmeti (BShtml2DOCX) durumu",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Alt sayfalara sahip DOCX sayfası",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Bu sayfayı ve tüm alt sayfaları DOCX olarak dışa aktar.",
+	"action-uemoduledocxsubpages-export": "tüm alt sayfalar dahil bir sayfayı DOCX'e dışa aktarmaya",
+	"right-uemoduledocxsubpages-export": "Tüm alt sayfalar dahil bir sayfayı DOCX'e dışa aktar",
+	"action-uemoduledocx-export": "bir sayfayı DOCX'e dışa aktarmaya",
+	"right-uemoduledocx-export": "Bir sayfayı DOCX'e dışa aktar"
 }
