@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Rail"
+		]
+	},
+	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX z podstronami",
+	"action-uemoduledocx-export": "eksportowania stron do DOCX",
+	"right-uemoduledocx-export": "Wyeksportuj stronę do DOCX"
+}

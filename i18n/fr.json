@@ -1,17 +1,27 @@
 {
 	"@metadata": {
 		"authors": [
-			"Gomoko"
+			"Gomoko",
+			"JenyxGym",
+			"MasterSinge",
+			"Thibaut120094",
+			"Verdy p"
 		]
 	},
-	"bs-uemoduledocx-extension-description": "Active l’exportation vers DOCX",
+	"bs-uemoduledocx-extension-description": "Active l’exportation en DOCX",
 	"bs-uemoduledocx-pref-SuppressNS": "Masquer le préfixe de l’espace de noms dans DOCX",
 	"bs-uemoduledocx-widgetlink-single-text": "Page unique DOCX",
-	"bs-uemoduledocx-widgetlink-single-title": "Exporter cette page en tant que DOCX.",
-	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
-	"bs-uemoduledocx-overview-description": "Exporte les pages vers Microsoft DOCX.",
+	"bs-uemoduledocx-widgetlink-single-title": "Exporter cette page au format DOCX.",
+	"bs-uemoduledocx-overview-title": "Microsoft® Office Open XML (DOCX)",
+	"bs-uemoduledocx-overview-description": "Exporte des pages au format Microsoft DOCX.",
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "non disponible",
 	"bs-uemoduledocx-overview-webservice-state-ok": "disponible",
 	"bs-uemoduledocx-overview-webservice-webadmin": "WebInterface de DOCXService (BShtml2DOCX)",
-	"bs-uemoduledocx-overview-webservice-state": "État de DOCXService (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "État de DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "fichier DOCX avec les sous-pages",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Exporter cette page et toutes les pages liées en format DOCX.",
+	"action-uemoduledocxsubpages-export": "exportation d'une page, y compris toutes les sous-pages, vers DOCX",
+	"right-uemoduledocxsubpages-export": "Exporter une page, y compris toutes les sous-pages, vers DOCX",
+	"action-uemoduledocx-export": "exportation d'une page vers DOCX",
+	"right-uemoduledocx-export": "Exporter une page vers DOCX"
 }
