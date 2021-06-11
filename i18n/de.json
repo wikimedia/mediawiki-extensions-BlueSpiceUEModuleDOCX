@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Mglaser",
 			"Robert Vogel <vogel@hallowelt.biz>"
 		]
 	},
@@ -13,5 +14,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "nicht erreichbar",
 	"bs-uemoduledocx-overview-webservice-state-ok": "erreichbar",
 	"bs-uemoduledocx-overview-webservice-webadmin": "DOCXService (BShtml2DOCX) Webinterface",
-	"bs-uemoduledocx-overview-webservice-state": "Status des DOCXService (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "Status des DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX Seite mit Unterseiten",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Diese und alle Unterseiten im DOCX Format ausgeben.",
+	"action-uemoduledocxsubpages-export": "eine Seite inklusive aller Unterseiten nach DOCX zu exportieren",
+	"right-uemoduledocxsubpages-export": "Eine Seite inklusive aller Unterseiten nach DOCX exportieren",
+	"action-uemoduledocx-export": "eine Seiten in DOCX zu exportieren",
+	"right-uemoduledocx-export": "Export einer Seite in DOCX"
 }

@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eduardo Addad de Oliveira"
+			"Eduardo Addad de Oliveira",
+			"Eduardoaddad"
 		]
 	},
 	"bs-uemoduledocx-extension-description": "Permite exportar para DOCX",
@@ -13,5 +14,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "não disponível",
 	"bs-uemoduledocx-overview-webservice-state-ok": "disponível",
 	"bs-uemoduledocx-overview-webservice-webadmin": "Interface Web do serviço DOCX (BS html2 DOCX)",
-	"bs-uemoduledocx-overview-webservice-state": "Estado DOCXService (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "Estado DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Página DOCX com subpáginas",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Exporte esta página e todas as subpáginas como DOCX.",
+	"action-uemoduledocxsubpages-export": "exportar uma página, incluindo todas as subpáginas, para DOCX",
+	"right-uemoduledocxsubpages-export": "Exportar uma página, incluindo todas as subpáginas, para DOCX",
+	"action-uemoduledocx-export": "exportar uma página para DOCX",
+	"right-uemoduledocx-export": "Exportar uma página para DOCX"
 }
