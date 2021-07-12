@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DDPAT",
 			"Piramidion"
 		]
 	},
@@ -13,5 +14,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "не доступно",
 	"bs-uemoduledocx-overview-webservice-state-ok": "доступно",
 	"bs-uemoduledocx-overview-webservice-webadmin": "Вебінтерфейс DOCXService (BShtml2DOCX)",
-	"bs-uemoduledocx-overview-webservice-state": "Стан DOCXService (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "Стан DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Сторінка DOCX із підсторінками",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Експортуйте цю сторінку та всі підсторінки як DOCX.",
+	"action-uemoduledocxsubpages-export": "експорт сторінки, включаючи всі підсторінки, до DOCX",
+	"right-uemoduledocxsubpages-export": "Експортуйте сторінку, включаючи всі підсторінки, у DOCX",
+	"action-uemoduledocx-export": "експорт сторінки в DOCX",
+	"right-uemoduledocx-export": "Експортуйте сторінку в DOCX"
 }
