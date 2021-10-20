@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Looong"
+			"Looong",
+			"Xiplus"
 		]
 	},
 	"bs-uemoduledocx-extension-description": "开启导出到DOCX功能",
-	"bs-uemoduledocx-pref-SuppressNS": "在DOCX中隐藏名字空间前缀",
+	"bs-uemoduledocx-pref-SuppressNS": "在DOCX中隐藏命名空间前缀",
 	"bs-uemoduledocx-widgetlink-single-text": "DOCX单页",
 	"bs-uemoduledocx-widgetlink-single-title": "将当前页导出为DOCX文件",
 	"bs-uemoduledocx-overview-title": "Micorsoft&reg;办公公开XML（DOCS）",
