@@ -1,9 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"Stefano"
 		]
 	},
 	"bs-uemoduledocx-widgetlink-subpages-title": "Esporta questa pagine e tutte le sue sottopagine come DOCX.",
-	"right-uemoduledocx-export": "Esporta le pagine in DOCX"
+	"right-uemoduledocx-export": "Esporta le pagine in DOCX",
+	"bs-uemoduledocx-extension-description": "Permette l'esportazione in DOCX",
+	"bs-uemoduledocx-widgetlink-single-title": "Esporta questa pagina in DOCX",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "non disponibile",
+	"bs-uemoduledocx-overview-webservice-state-ok": "disponibile"
 }
