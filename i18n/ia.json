@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"bs-uemoduledocx-extension-description": "Permitte le exportation in DOCX",
+	"bs-uemoduledocx-pref-SuppressNS": "Celar le prefixo del spatios de nomines in DOCX",
+	"bs-uemoduledocx-widgetlink-single-text": "Pagina individual in DOCX",
+	"bs-uemoduledocx-widgetlink-single-title": "Exportar iste pagina in DOCX.",
+	"bs-uemoduledocx-overview-title": "Office Open XML (DOCX) de Microsoft&reg;",
+	"bs-uemoduledocx-overview-description": "Exportar paginas in DOCX de Microsoft.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "non disponibile",
+	"bs-uemoduledocx-overview-webservice-state-ok": "disponibile",
+	"bs-uemoduledocx-overview-webservice-webadmin": "Interfacie web de DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-overview-webservice-state": "Stato de DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Pagina DOCX con subpaginas",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Exportar iste pagina e tote le subpaginas in formato DOCX.",
+	"action-uemoduledocxsubpages-export": "exportar un pagina, includente tote le subpaginas, in DOCX",
+	"right-uemoduledocxsubpages-export": "Exportar un pagina, includente tote le subpaginas, in DOCX",
+	"action-uemoduledocx-export": "exportar un pagina in DOCX",
+	"right-uemoduledocx-export": "Exportar un pagina in DOCX"
+}
