@@ -65,7 +65,7 @@ class DOCXServlet {
 				'documentToken' => $this->params['document-token'],
 				'templateFile'  => class_exists( 'CURLFile' ) ? new CURLFile( $DOCXTemplatePath ) : '@'
 					. $DOCXTemplatePath,
-				'wikiId'        => wfWikiID(),
+				'wikiId'        => WikiMap::getCurrentWikiId(),
 				'secret'        => $config->get(
 					'UEModuleDOCXDOCXServiceSecret'
 				),
@@ -160,7 +160,7 @@ class DOCXServlet {
 			$postData = [
 				'fileType'      => $type,
 				'documentToken' => $this->params['document-token'],
-				'wikiId'        => wfWikiID(),
+				'wikiId'        => WikiMap::getCurrentWikiId(),
 				'secret'        => $config->get(
 					'UEModuleDOCXDOCXServiceSecret'
 				)
