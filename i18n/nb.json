@@ -13,5 +13,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "ikke tilgjengelig",
 	"bs-uemoduledocx-overview-webservice-state-ok": "tilgjengelig",
 	"bs-uemoduledocx-overview-webservice-webadmin": "Nettgrensesnitt for DOCXService (BShtml2DOCX)",
-	"bs-uemoduledocx-overview-webservice-state": "Status for DOCXService (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "Status for DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX-side med undersider",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Eksporter denne siden og alle undersider som DOCX.",
+	"action-uemoduledocxsubpages-export": "eksportere ei side, inkludert alle undersider, til DOCX",
+	"right-uemoduledocxsubpages-export": "Eksportere ei side, inkludert alle undersider, til DOCX",
+	"action-uemoduledocx-export": "eksportere ei side til DOCX",
+	"right-uemoduledocx-export": "Eksportere ei side til DOCX"
 }
