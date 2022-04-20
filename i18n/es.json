@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DiegoAmbrocio",
 			"Fitoschido"
 		]
 	},
@@ -11,5 +12,8 @@
 	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
 	"bs-uemoduledocx-overview-description": "Exporta páginas al formato DOCX de Microsoft.",
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "no disponible",
-	"bs-uemoduledocx-overview-webservice-state-ok": "disponible"
+	"bs-uemoduledocx-overview-webservice-state-ok": "disponible",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Página DOCX con subpáginas",
+	"action-uemoduledocx-export": "exportando una página a DOCX",
+	"right-uemoduledocx-export": "Exportar una página a DOCX"
 }
