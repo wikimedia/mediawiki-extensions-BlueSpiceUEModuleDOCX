@@ -15,5 +15,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "indisponível",
 	"bs-uemoduledocx-overview-webservice-state-ok": "disponível",
 	"bs-uemoduledocx-overview-webservice-webadmin": "Webinterface de DOCXService (BShtml2DOCX)",
-	"bs-uemoduledocx-overview-webservice-state": "Estado do DOCXService (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "Estado do DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Página DOCX com subpáginas",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Exportar esta página e todas as subpáginas em formato DOCX.",
+	"action-uemoduledocxsubpages-export": "exportar uma página, incluindo todas as subpáginas, em formato DOCX",
+	"right-uemoduledocxsubpages-export": "Exportar uma página, incluindo todas as subpáginas, em formato DOCX",
+	"action-uemoduledocx-export": "exportar uma página para DOCX",
+	"right-uemoduledocx-export": "Exportar uma página para DOCX"
 }
