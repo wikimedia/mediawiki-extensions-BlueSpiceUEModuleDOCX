@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"YaronSh"
+			"YaronSh",
+			"Amire80"
 		]
 	},
-	"bs-uemoduledocx-extension-description": "הפעלת ייצוא ל־DOCX",
-	"bs-uemoduledocx-widgetlink-single-title": "ייצוא הדף הזה כ־DOCX.",
-	"bs-uemoduledocx-overview-description": "ייצוא דפים ל־DOCX מבית Microsoft.",
+	"bs-uemoduledocx-extension-description": "הפעלת יצוא ל־DOCX",
+	"bs-uemoduledocx-widgetlink-single-title": "יצוא הדף הזה כ־DOCX.",
+	"bs-uemoduledocx-overview-description": "יצוא דפים ל־Microsoft DOCX.",
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "לא זמין"
 }
