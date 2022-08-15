@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Looong",
+			"Wzl19371",
 			"Xiplus"
 		]
 	},
@@ -14,5 +15,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "不可行",
 	"bs-uemoduledocx-overview-webservice-state-ok": "可行的",
 	"bs-uemoduledocx-overview-webservice-webadmin": "DOCXService(BShtml2DOCS)网络借口",
-	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX)状态"
+	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX)状态",
+	"bs-uemoduledocx-widgetlink-subpages-text": "带有子页面的DOCX页面",
+	"bs-uemoduledocx-widgetlink-subpages-title": "将此页面和所有子页面导出为DOCX。",
+	"action-uemoduledocxsubpages-export": "将一个页面（包括所有子页面）导出为DOCX",
+	"right-uemoduledocxsubpages-export": "将一个页面（包括所有子页面）导出为DOCX",
+	"action-uemoduledocx-export": "将页面导出到DOCX",
+	"right-uemoduledocx-export": "将页面导出到DOCX"
 }
