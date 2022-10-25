@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Beta16",
+			"GpieroMW",
 			"Stefano"
 		]
 	},
@@ -10,5 +11,8 @@
 	"bs-uemoduledocx-extension-description": "Permette l'esportazione in DOCX",
 	"bs-uemoduledocx-widgetlink-single-title": "Esporta questa pagina in DOCX",
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "non disponibile",
-	"bs-uemoduledocx-overview-webservice-state-ok": "disponibile"
+	"bs-uemoduledocx-overview-webservice-state-ok": "disponibile",
+	"bs-uemoduledocx-overview-description": "Esporta le pagine in Microsoft DOCX.",
+	"action-uemoduledocxsubpages-export": "esportare una pagina, comprese tutte le sottopagine, in DOCX",
+	"right-uemoduledocxsubpages-export": "Esporta una pagina, comprese tutte le sue sottopagine, in DOCX"
 }
