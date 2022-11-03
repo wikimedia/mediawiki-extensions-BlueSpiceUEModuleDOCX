@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"ديفيد"
+			"ديفيد",
+			"Meno25"
 		]
 	},
 	"bs-uemoduledocx-extension-description": "يتيح التصدير إلى DOCX",
@@ -13,5 +14,11 @@
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "غير متاح",
 	"bs-uemoduledocx-overview-webservice-state-ok": "متاح",
 	"bs-uemoduledocx-overview-webservice-webadmin": "واجهة الويب خدمة DOCX (BShtml2DOCX)",
-	"bs-uemoduledocx-overview-webservice-state": "حالة خدمة DOCX (BShtml2DOCX)"
+	"bs-uemoduledocx-overview-webservice-state": "حالة خدمة DOCX (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "صفحة DOCX مع صفحات فرعية",
+	"bs-uemoduledocx-widgetlink-subpages-title": "قم بتصدير هذه الصفحة وجميع الصفحات الفرعية بتنسيق DOCX.",
+	"action-uemoduledocxsubpages-export": "تصدير صفحة ، بما في ذلك جميع الصفحات الفرعية ، إلى DOCX",
+	"right-uemoduledocxsubpages-export": "قم بتصدير صفحة ، بما في ذلك جميع الصفحات الفرعية ، إلى DOCX",
+	"action-uemoduledocx-export": "تصدير صفحة إلى DOCX",
+	"right-uemoduledocx-export": "تصدير صفحة إلى DOCX"
 }
