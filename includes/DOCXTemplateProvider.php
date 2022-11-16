@@ -46,8 +46,7 @@ class DOCXTemplateProvider {
 				$templateName = implode( '.', $fileNameParts );
 				$options[$templateName] = $fileName;
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			wfDebugLog(
 				'BS::UEModuleDOCX',
 				'DOCXTemplateProvider::getTemplatesForSelectOptions: Error: ' . $e->getMessage()
