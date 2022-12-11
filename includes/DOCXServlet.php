@@ -85,10 +85,9 @@ class DOCXServlet {
 			]
 		);
 
-		$HttpEngine = Http::$httpEngine;
-		Http::$httpEngine = 'curl';
+		$httpRequestFactory = MediaWikiServices::getInstance()->getHttpRequestFactory();
 		// HINT: http://www.php.net/manual/en/function.curl-setopt.php#refsect1-function.curl-setopt-notes
-		$request = MWHttpRequest::factory(
+		$request = $httpRequestFactory->create(
 				// Tailing slash is important because otherwise Webserver will send
 				// "Moved Permanently" and cURL seems to loose POST data when
 				// following redirect
@@ -107,7 +106,7 @@ class DOCXServlet {
 
 		$options['postData']['WIKICONTENT'] = $HtmlDOMXML;
 
-		$request = MWHttpRequest::factory(
+		$request = $httpRequestFactory->create(
 			wfExpandUrl( $this->params['backend-url'] . '/RenderDOCX/' ),
 			$options
 		);
@@ -116,7 +115,6 @@ class DOCXServlet {
 			throw new MWException( $status->getMessage() );
 		}
 		$pdfByteArray = $request->getContent();
-		Http::$httpEngine = $HttpEngine;
 		if ( $pdfByteArray == false ) {
 			wfDebugLog(
 				'BS::UEModuleDOCX',
@@ -146,6 +144,7 @@ class DOCXServlet {
 	protected function uploadFiles() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
+		$httpRequestFactory = MediaWikiServices::getInstance()->getHttpRequestFactory();
 
 		foreach ( $this->filesList as $type => $filesList ) {
 
@@ -193,9 +192,7 @@ class DOCXServlet {
 				]
 			);
 
-			$HttpEngine = Http::$httpEngine;
-			Http::$httpEngine = 'curl';
-			$response = Http::post(
+			$response = $httpRequestFactory->post(
 				$this->params['backend-url'] . '/UploadAsset/',
 				[
 					'timeout' => 120,
@@ -205,9 +202,8 @@ class DOCXServlet {
 					'postData' => $postData
 				]
 			);
-			Http::$httpEngine = $HttpEngine;
 
-			if ( $response != false ) {
+			if ( $response !== null ) {
 				wfDebugLog(
 					'BS::UEModuleDOCX',
 					'DOCXServlet::uploadFiles: Successfully added "' . $type . '"'
