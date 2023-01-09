@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"bs-uemoduledocx-extension-description": "Omogoča izvoz v DOCX",
+	"bs-uemoduledocx-pref-SuppressNS": "V DOCX skrije predpono imenskega prostora",
+	"bs-uemoduledocx-widgetlink-single-text": "DOCX z eno stranjo",
+	"bs-uemoduledocx-widgetlink-single-title": "Izvozite to stran v DOCX.",
+	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
+	"bs-uemoduledocx-overview-description": "Izvozi strani v Microsoft DOCX.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "ni na voljo",
+	"bs-uemoduledocx-overview-webservice-state-ok": "na voljo",
+	"bs-uemoduledocx-overview-webservice-webadmin": "Spletni vmesnik DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-overview-webservice-state": "Stanje DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Stran DOCX s podstranmi",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Izvoz te strani z vsemi podstranmi v DOCX.",
+	"action-uemoduledocxsubpages-export": "izvoz strani, vključno z vsemi podstranmi, v DOCX",
+	"right-uemoduledocxsubpages-export": "Izvoz strani, vključno z vsemi podstranmi, v DOCX",
+	"action-uemoduledocx-export": "izvoz strani v DOCX",
+	"right-uemoduledocx-export": "Izvažanje strani v DOCX"
+}
