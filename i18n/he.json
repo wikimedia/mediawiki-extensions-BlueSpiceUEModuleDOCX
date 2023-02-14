@@ -6,8 +6,19 @@
 		]
 	},
 	"bs-uemoduledocx-extension-description": "הפעלת יצוא ל־DOCX",
-	"bs-uemoduledocx-widgetlink-single-title": "יצוא הדף הזה כ־DOCX.",
+	"bs-uemoduledocx-widgetlink-single-title": "יצוא הדף הזה כקובץ DOCX.",
 	"bs-uemoduledocx-overview-description": "יצוא דפים ל־Microsoft DOCX.",
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "לא זמין",
-	"bs-uemoduledocx-overview-webservice-state-ok": "זמין"
+	"bs-uemoduledocx-overview-webservice-state-ok": "זמין",
+	"bs-uemoduledocx-pref-SuppressNS": "הסתרת תחילית מרחב השם ב־DOCX",
+	"bs-uemoduledocx-widgetlink-single-text": "דף DOCX יחיד",
+	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
+	"bs-uemoduledocx-overview-webservice-webadmin": "ממשק וב של DOCXService (BShtml2DOCX).",
+	"bs-uemoduledocx-overview-webservice-state": "מצב DOCXService (BShtml2DOCX).",
+	"bs-uemoduledocx-widgetlink-subpages-text": "דף DOCX עם דפי־משנה",
+	"bs-uemoduledocx-widgetlink-subpages-title": "יצוא הדף הזה וכל דפי־המשנה כ־DOCX.",
+	"action-uemoduledocxsubpages-export": "לייצא דף ואת כל דפי־המשנה שלו כ־DOCX",
+	"right-uemoduledocxsubpages-export": "יצוא דף וכל דפי־המשנה שלו כ־DOCX",
+	"action-uemoduledocx-export": "לייצא דף ל־DOCX",
+	"right-uemoduledocx-export": "יצוא דף ל־DOCX"
 }
