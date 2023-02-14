@@ -8,5 +8,6 @@
 	"bs-uemoduledocx-extension-description": "הפעלת יצוא ל־DOCX",
 	"bs-uemoduledocx-widgetlink-single-title": "יצוא הדף הזה כ־DOCX.",
 	"bs-uemoduledocx-overview-description": "יצוא דפים ל־Microsoft DOCX.",
-	"bs-uemoduledocx-overview-webservice-state-not-ok": "לא זמין"
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "לא זמין",
+	"bs-uemoduledocx-overview-webservice-state-ok": "זמין"
 }
