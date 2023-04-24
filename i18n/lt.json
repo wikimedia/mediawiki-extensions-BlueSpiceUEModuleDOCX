@@ -8,5 +8,14 @@
 	"bs-uemoduledocx-widgetlink-single-title": "Eksportuoti puslapį kaip DOCX.",
 	"bs-uemoduledocx-overview-description": "Eksportuoti puslapius Microsoft DOCX.",
 	"bs-uemoduledocx-overview-webservice-state-not-ok": "neprieinama",
-	"bs-uemoduledocx-overview-webservice-state-ok": "prieinama"
+	"bs-uemoduledocx-overview-webservice-state-ok": "prieinama",
+	"bs-uemoduledocx-extension-description": "Įgalina DOCX eksportą",
+	"bs-uemoduledocx-widgetlink-single-text": "DOCX vienas puslapis",
+	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX puslapis su polapiais",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Eksportuoti šį puslapį ir visus polapius kaip DOCX.",
+	"action-uemoduledocxsubpages-export": "eksportuojamas puslapis, įskaitant visus polapius, kaip DOCX.",
+	"right-uemoduledocxsubpages-export": "Eksportuoti puslapį, įskaitant visus polapius, kaip DOCX.",
+	"action-uemoduledocx-export": "eksportuojamas puslapis kaip DOCX",
+	"right-uemoduledocx-export": "Eksportuoti puslapį kaip DOCX"
 }
