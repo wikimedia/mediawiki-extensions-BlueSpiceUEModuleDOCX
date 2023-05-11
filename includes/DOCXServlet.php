@@ -13,6 +13,7 @@
  * @filesource
  */
 
+use GuzzleHttp\Client;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -47,6 +48,10 @@ class DOCXServlet {
 		$HtmlDOMXML = $HtmlDOM->saveXML( $HtmlDOM->documentElement );
 
 		// Save temporary
+		$status = BsFileSystemHelper::ensureCacheDirectory( 'UEModuleDOCX' );
+		if ( !$status->isOK() ) {
+			throw new MWException( $status->getMessage() );
+		}
 		$tmpHtmlFile = BS_DATA_DIR . '/UEModuleDOCX/' . $this->params['document-token'] . '.html';
 		$tmpDOCXFile = BS_DATA_DIR . '/UEModuleDOCX/' . $this->params['document-token'] . '.docx';
 		file_put_contents( $tmpHtmlFile, $HtmlDOMXML );
@@ -54,70 +59,48 @@ class DOCXServlet {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()
 			->makeConfig( 'bsg' );
 
-		$options = [
-			'method'          => 'POST',
-			'timeout'         => 120,
-			'followRedirects' => true,
-			'sslVerifyHost'   => false,
-			'sslVerifyCert'   => false,
-			'postData' => [
-				'fileType'      => 'template',
-				'documentToken' => $this->params['document-token'],
-				'templateFile'  => class_exists( 'CURLFile' ) ? new CURLFile( $DOCXTemplatePath ) : '@'
-					. $DOCXTemplatePath,
-				'wikiId'        => WikiMap::getCurrentWikiId(),
-				'secret'        => $config->get(
-					'UEModuleDOCXDOCXServiceSecret'
-				),
-			]
+		$postData = [
+			'fileType'      => 'template',
+			'documentToken' => $this->params['document-token'],
+			'templateFile'  => $DOCXTemplatePath,
+			'templateFile_name'  => basename( $DOCXTemplatePath ),
+			'wikiId'        => WikiMap::getCurrentWikiId(),
+			'secret'        => $config->get(
+				'UEModuleDOCXDOCXServiceSecret'
+			),
 		];
 
 		if ( $config->get( 'TestMode' ) ) {
-			$options['postData']['debug'] = "true";
+			$postData['debug'] = "true";
 		}
 
 		MediaWikiServices::getInstance()->getHookContainer()->run(
 			'BSUEModuleDOCXCreateDOCXBeforeSend',
 			[
 				$this,
-				&$options,
+				&$postData,
 				$HtmlDOM
 			]
 		);
 
-		$HttpEngine = Http::$httpEngine;
-		Http::$httpEngine = 'curl';
-		// HINT: http://www.php.net/manual/en/function.curl-setopt.php#refsect1-function.curl-setopt-notes
-		$request = MWHttpRequest::factory(
-				// Tailing slash is important because otherwise Webserver will send
-				// "Moved Permanently" and cURL seems to loose POST data when
-				// following redirect
-				wfExpandUrl( $this->params['backend-url'] . '/UploadAsset/' ),
-				$options
+		$multipartPostData = $this->convertToMultipart( $postData );
+		unset( $postData['templateFile'] );
+		unset( $postData['fileType'] );
+		// Upload HTML source
+		$this->request(
+			$this->params['backend-url'] . '/UploadAsset/', $multipartPostData
 		);
-		$status = $request->execute();
-		if ( !$status->isOK() ) {
-			throw new MWException( $status->getMessage() );
-		}
 
 		// Now do the rendering
-		// We re-send the parameters but this time without the file.
-		unset( $options['postData']['templateFile'] );
-		unset( $options['postData']['fileType'] );
+		$postData['WIKICONTENT'] = $HtmlDOMXML;
 
-		$options['postData']['WIKICONTENT'] = $HtmlDOMXML;
-
-		$request = MWHttpRequest::factory(
-			wfExpandUrl( $this->params['backend-url'] . '/RenderDOCX/' ),
-			$options
+		$docxByteArray = $this->request(
+			$this->params['backend-url'] . '/RenderDOCX/', [ 'body' => $postData ], [
+				'Content-Type' => 'application/x-www-form-urlencoded'
+			]
 		);
-		$status = $request->execute();
-		if ( !$status->isOK() ) {
-			throw new MWException( $status->getMessage() );
-		}
-		$pdfByteArray = $request->getContent();
-		Http::$httpEngine = $HttpEngine;
-		if ( $pdfByteArray == false ) {
+
+		if ( $docxByteArray == false ) {
 			wfDebugLog(
 				'BS::UEModuleDOCX',
 				'DOCXServlet::createDOCX: Failed creating "' . $this->params['document-token'] . '"'
@@ -129,7 +112,7 @@ class DOCXServlet {
 			);
 		}
 
-		file_put_contents( $tmpDOCXFile, $pdfByteArray );
+		file_put_contents( $tmpDOCXFile, $docxByteArray );
 
 		// Remove temporary file
 		if ( !$config->get( 'TestMode' ) ) {
@@ -137,7 +120,7 @@ class DOCXServlet {
 			unlink( $tmpDOCXFile );
 		}
 
-		return $pdfByteArray;
+		return $docxByteArray;
 	}
 
 	/**
@@ -152,29 +135,51 @@ class DOCXServlet {
 			// Backwards compatibility to old inconsitent DOCXTemplates
 			// (having "STYLESHEET" as type but linnking to "stylesheets")
 			// TODO: Make conditional?
-			if ( $type == 'IMAGE' ) {      $type = 'images';
+			if ( $type == 'IMAGE' ) {
+				$type = 'images';
 			}
-			if ( $type == 'STYLESHEET' ) { $type = 'stylesheets';
+			if ( $type == 'STYLESHEET' ) {
+				$type = 'stylesheets';
 			}
 
 			$postData = [
-				'fileType'      => $type,
-				'documentToken' => $this->params['document-token'],
-				'wikiId'        => WikiMap::getCurrentWikiId(),
-				'secret'        => $config->get(
-					'UEModuleDOCXDOCXServiceSecret'
-				)
+				'multipart' => [
+					[
+						'name' => 'fileType',
+						'contents' => $type,
+					],
+					[
+						'name' => 'documentToken',
+						'contents' => $this->params['document-token'],
+					],
+					[
+						'name' => 'wikiId',
+						'contents' => WikiMap::getCurrentWikiId(),
+					],
+					[
+						'name' => 'secret',
+						'contents' => $config->get( 'UEModuleDOCXDOCXServiceSecret' ),
+					],
+				],
 			];
 
 			$errors = [];
-			$counter = 0;
 			foreach ( $filesList as $fileName => $sFilePath ) {
 				if ( file_exists( $sFilePath ) == false ) {
 					$errors[] = $sFilePath;
 					continue;
 				}
-				$postData['file' . $counter++] = class_exists( 'CURLFile' ) ? new CURLFile( $sFilePath ) : '@'
-					. $sFilePath;
+				// 'myfile.css' => {file_contents}
+				// 'myfile.css_name' => 'myfile.css'
+				$postData['multipart'][] = [
+					'name' => $fileName,
+					'contents' => file_get_contents( $sFilePath ),
+					'filename' => $fileName
+				];
+				$postData['multipart'][] = [
+					'name' => "{$fileName}_name",
+					'contents' => $fileName
+				];
 			}
 
 			if ( !empty( $errors ) ) {
@@ -193,36 +198,99 @@ class DOCXServlet {
 				]
 			);
 
-			$HttpEngine = Http::$httpEngine;
-			Http::$httpEngine = 'curl';
-			$response = Http::post(
-				$this->params['backend-url'] . '/UploadAsset/',
-				[
-					'timeout' => 120,
-					'followRedirects' => true,
-					'sslVerifyHost' => false,
-					'sslVerifyCert' => false,
-					'postData' => $postData
-				]
-			);
-			Http::$httpEngine = $HttpEngine;
+			$this->doFilesUpload( $postData, $errors );
 
-			if ( $response != false ) {
-				wfDebugLog(
-					'BS::UEModuleDOCX',
-					'DOCXServlet::uploadFiles: Successfully added "' . $type . '"'
-				);
-				wfDebugLog(
-					'BS::UEModuleDOCX',
-					$response
-				);
-			} else {
-				wfDebugLog(
-					'BS::UEModuleDOCX',
-					'DOCXServlet::uploadFiles: Failed adding "' . $type . '"'
-				);
+		}
+	}
+
+	/**
+	 * @param array $aPostData
+	 * @param array|null $aErrors
+	 * @return array|null
+	 */
+	protected function doFilesUpload( $aPostData, $aErrors = [] ) {
+		$sType = null;
+		foreach ( $aPostData['multipart'] as $aFile ) {
+			if ( $aFile['name'] === 'fileType' ) {
+				$sType = $aFile['contents'];
+				break;
 			}
 		}
+
+		if ( !empty( $aErrors ) ) {
+			wfDebugLog(
+				'BS::UEModulePDF',
+				'BsPDFServlet::uploadFiles: Error trying to fetch files:' . "\n" . var_export( $aErrors, true )
+			);
+		}
+
+		$response = $this->request(
+			$this->params['backend-url'] . '/UploadAsset/', $aPostData
+		);
+
+		if ( $response != false ) {
+			wfDebugLog(
+				'BS::UEModuleDOCX',
+				'DOCXServlet::uploadFiles: Successfully added "' . $sType . '"'
+			);
+			wfDebugLog(
+				'BS::UEModuleDOCX',
+				$response
+			);
+		} else {
+			wfDebugLog(
+				'BS::UEModuleDOCX',
+				'DOCXServlet::uploadFiles: Failed adding "' . $sType . '"'
+			);
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param array $postData in form_params format
+	 *
+	 * @return array
+	 */
+	private function convertToMultipart( $postData ): array {
+		$multipart = [];
+		foreach ( $postData as $postItemKey => $postItem ) {
+			if ( $postItemKey === 'multipart' ) {
+				return $postData;
+			}
+			if ( $postItemKey === 'sourceHtmlFile' ) {
+				$multipart[] = [
+					'name' => $postItemKey,
+					'filename' => basename( $postItem ),
+					'contents' => file_get_contents( $postItem ),
+				];
+				continue;
+			}
+			$multipart[] = [ 'name' => $postItemKey, 'contents' => $postItem ];
+		}
+		return [ 'multipart' => $multipart ];
+	}
+
+	/**
+	 * @param string $url
+	 * @param array $options
+	 * @param array|null $headers
+	 *
+	 * @return string
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
+	private function request( string $url, array $options, ?array $headers = [] ): string {
+		$config = array_merge( [
+			'headers' => $headers,
+			'timeout' => 120
+		], $GLOBALS['bsgUEModulePDFRequestOptions'] );
+		$config['headers']['User-Agent'] = MediaWikiServices::getInstance()->getHttpRequestFactory()->getUserAgent();
+
+		// Create client manually, since calling `createGuzzleClient` on httpFactory will throw a fatal
+		// complaining `$this->options` is NULL. Which should not happen, but I cannot find why it happens
+		$client = new Client( $config );
+		$response = $client->request( 'POST', $url, $options );
+		return $response->getBody()->getContents();
 	}
 
 	/**
