@@ -15,5 +15,6 @@
 	"bs-uemoduledocx-overview-description": "Esporta le pagine in Microsoft DOCX.",
 	"action-uemoduledocxsubpages-export": "esportare una pagina, comprese tutte le sottopagine, in DOCX",
 	"right-uemoduledocxsubpages-export": "Esporta una pagina, comprese tutte le sue sottopagine, in DOCX",
-	"bs-uemoduledocx-widgetlink-subpages-text": "Pagina DOCX con sottopagine"
+	"bs-uemoduledocx-widgetlink-subpages-text": "Pagina DOCX con sottopagine",
+	"action-uemoduledocx-export": "esportare una pagina in DOCX"
 }
