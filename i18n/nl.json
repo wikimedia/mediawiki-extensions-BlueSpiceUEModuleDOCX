@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"HanV",
 			"Mainframe98",
 			"McDutchie"
 		]
@@ -17,8 +18,8 @@
 	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX) status",
 	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX-pagina met subpagina's",
 	"bs-uemoduledocx-widgetlink-subpages-title": "Deze pagina en alle subpagina's exporteren als DOCX.",
-	"action-uemoduledocxsubpages-export": "een pagina met alle subpagina's in DOCX te exporteren",
+	"action-uemoduledocxsubpages-export": "een pagina met alle subpagina's naar DOCX te exporteren",
 	"right-uemoduledocxsubpages-export": "Een pagina met alle subpagina's in DOCX exporteren",
-	"action-uemoduledocx-export": "een pagina in DOCX te exporteren",
+	"action-uemoduledocx-export": "een pagina naar DOCX te exporteren",
 	"right-uemoduledocx-export": "Een pagina in DOCX exporteren"
 }
