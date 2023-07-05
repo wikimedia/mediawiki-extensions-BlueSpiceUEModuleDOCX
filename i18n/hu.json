@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Krisztina"
+		]
+	},
+	"bs-uemoduledocx-extension-description": "Lehetővé teszi a DOCX-be történő exportálást",
+	"bs-uemoduledocx-pref-SuppressNS": "Névtér előtag elrejtése DOCX-ben",
+	"bs-uemoduledocx-widgetlink-single-text": "DOCX lap",
+	"bs-uemoduledocx-widgetlink-single-title": "Lap exportálása DOCX-be.",
+	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
+	"bs-uemoduledocx-overview-description": "Lapok exportálása Microsoft DOCX-be.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "nem elérhető",
+	"bs-uemoduledocx-overview-webservice-state-ok": "elérhető",
+	"bs-uemoduledocx-overview-webservice-webadmin": "DOCXService (BShtml2DOCX) Webes felület",
+	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX) állapot",
+	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX lap allapokkal",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Exportálja ezt a lapot és minden allapját DOCX-be.",
+	"right-uemoduledocxsubpages-export": "Exportálja ezt a lapot minden allapjával együtt DOCX-be.",
+	"right-uemoduledocx-export": "Lap exportálása DOCX-be"
+}
