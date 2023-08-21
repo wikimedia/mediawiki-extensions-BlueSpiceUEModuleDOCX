@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Cookai1205",
 			"Kly"
 		]
 	},
@@ -16,8 +17,8 @@
 	"bs-uemoduledocx-overview-webservice-state": "DOCXService（BShtml2DOCX）狀態",
 	"bs-uemoduledocx-widgetlink-subpages-text": "帶有子頁面的 DOCX 頁面",
 	"bs-uemoduledocx-widgetlink-subpages-title": "匯出此頁面與所有子頁面成為 DOCX。",
-	"action-uemoduledocxsubpages-export": "正在匯出頁面，包含所有子頁面，轉成 DOCX",
+	"action-uemoduledocxsubpages-export": "匯出頁面，包含所有子頁面，轉成 DOCX",
 	"right-uemoduledocxsubpages-export": "匯出頁面，包含所有子頁面，轉成 DOCX",
-	"action-uemoduledocx-export": "正在匯出頁面成 DOCX",
+	"action-uemoduledocx-export": "匯出頁面成 DOCX",
 	"right-uemoduledocx-export": "匯出頁面成 DOCX"
 }
