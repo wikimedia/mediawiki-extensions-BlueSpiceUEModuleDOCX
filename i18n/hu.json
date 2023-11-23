@@ -17,5 +17,7 @@
 	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX lap allapokkal",
 	"bs-uemoduledocx-widgetlink-subpages-title": "Exportálja ezt a lapot és minden allapját DOCX-be.",
 	"right-uemoduledocxsubpages-export": "Exportálja ezt a lapot minden allapjával együtt DOCX-be.",
-	"right-uemoduledocx-export": "Lap exportálása DOCX-be"
+	"right-uemoduledocx-export": "Lap exportálása DOCX-be",
+	"action-uemoduledocxsubpages-export": "lap exportálása, minden allapjával együtt DOCX-be",
+	"action-uemoduledocx-export": "lap exportálása DOCX-be"
 }
