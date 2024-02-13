@@ -426,9 +426,7 @@ class DOCXServlet {
 			$url = '/' . substr( $url, strlen( $scriptUrlDir ) );
 		}
 
-		$newUrl = $this->params['webroot-filesystempath'] . $url;
-		// TODO RBV (08.02.11 15:56): What about $wgUploadDirectory?
-		return $newUrl;
+		return $this->params['webroot-filesystempath'] . $url;
 	}
 
 	// </editor-fold>
