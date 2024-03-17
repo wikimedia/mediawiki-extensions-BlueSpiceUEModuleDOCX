@@ -33,7 +33,8 @@ class DOCXTemplateProvider {
 			$path = realpath( $params['template-path'] );
 			$dirIterator = new DirectoryIterator( $path );
 			foreach ( $dirIterator as $fileInfo ) {
-				if ( $fileInfo->isDir() || $fileInfo->isDot() ) { continue;
+				if ( $fileInfo->isDir() || $fileInfo->isDot() ) {
+					continue;
 				}
 
 				$fileName = $fileInfo->getBasename();

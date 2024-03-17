@@ -171,7 +171,8 @@ class DOCXPageProvider {
 			// Remove surrounding anchor tags as PHPDOCX will render them with
 			// an underline
 			$parent = BsDOMHelper::getParentDOMElement( $imgElement );
-			if ( strtoupper( $parent->nodeName ) !== 'A' ) { continue;
+			if ( strtoupper( $parent->nodeName ) !== 'A' ) {
+				continue;
 			}
 			BsDOMHelper::insertAfter( $imgElement, $parent );
 			$parent->parentNode->removeChild( $parent );
@@ -223,9 +224,11 @@ class DOCXPageProvider {
 			}
 
 			foreach ( $childNodes as $list ) {
-				if ( $list instanceof DOMElement == false ) { continue;
+				if ( $list instanceof DOMElement == false ) {
+					continue;
 				}
-				if ( !in_array( strtoupper( $list->nodeName ), [ 'UL', 'OL' ] ) ) { continue;
+				if ( !in_array( strtoupper( $list->nodeName ), [ 'UL', 'OL' ] ) ) {
+					continue;
 				}
 
 				$LIs = $list->getElementsByTagName( 'li' );
