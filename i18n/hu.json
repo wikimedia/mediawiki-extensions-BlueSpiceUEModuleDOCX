@@ -4,20 +4,20 @@
 			"Krisztina"
 		]
 	},
-	"bs-uemoduledocx-extension-description": "Lehetővé teszi a DOCX-be történő exportálást",
-	"bs-uemoduledocx-pref-SuppressNS": "Névtér előtag elrejtése DOCX-ben",
+	"bs-uemoduledocx-extension-description": "Lehet\u0151v\u00e9 teszi a DOCX-be t\u00f6rt\u00e9n\u0151 export\u00e1l\u00e1st",
+	"bs-uemoduledocx-pref-SuppressNS": "N\u00e9vt\u00e9r el\u0151tag elrejt\u00e9se DOCX-ben",
 	"bs-uemoduledocx-widgetlink-single-text": "DOCX lap",
-	"bs-uemoduledocx-widgetlink-single-title": "Lap exportálása DOCX-be.",
+	"bs-uemoduledocx-widgetlink-single-title": "Lap export\u00e1l\u00e1sa DOCX-be.",
 	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
-	"bs-uemoduledocx-overview-description": "Lapok exportálása Microsoft DOCX-be.",
-	"bs-uemoduledocx-overview-webservice-state-not-ok": "nem elérhető",
-	"bs-uemoduledocx-overview-webservice-state-ok": "elérhető",
-	"bs-uemoduledocx-overview-webservice-webadmin": "DOCXService (BShtml2DOCX) Webes felület",
-	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX) állapot",
+	"bs-uemoduledocx-overview-description": "Lapok export\u00e1l\u00e1sa Microsoft DOCX-be.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "nem el\u00e9rhet\u0151",
+	"bs-uemoduledocx-overview-webservice-state-ok": "el\u00e9rhet\u0151",
+	"bs-uemoduledocx-overview-webservice-webadmin": "DOCXService (BShtml2DOCX) Webes fel\u00fclet",
+	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX) \u00e1llapot",
 	"bs-uemoduledocx-widgetlink-subpages-text": "DOCX lap allapokkal",
-	"bs-uemoduledocx-widgetlink-subpages-title": "Exportálja ezt a lapot és minden allapját DOCX-be.",
-	"right-uemoduledocxsubpages-export": "Exportálja ezt a lapot minden allapjával együtt DOCX-be.",
-	"right-uemoduledocx-export": "Lap exportálása DOCX-be",
-	"action-uemoduledocxsubpages-export": "lap exportálása, minden allapjával együtt DOCX-be",
-	"action-uemoduledocx-export": "lap exportálása DOCX-be"
+	"bs-uemoduledocx-widgetlink-subpages-title": "Export\u00e1lja ezt a lapot \u00e9s minden allapj\u00e1t DOCX-be.",
+	"right-uemoduledocxsubpages-export": "Export\u00e1lja ezt a lapot minden allapj\u00e1val egy\u00fctt DOCX-be.",
+	"right-uemoduledocx-export": "Lap export\u00e1l\u00e1sa DOCX-be",
+	"action-uemoduledocxsubpages-export": "lap export\u00e1l\u00e1sa, minden allapj\u00e1val egy\u00fctt DOCX-be",
+	"action-uemoduledocx-export": "lap export\u00e1l\u00e1sa DOCX-be"
 }
