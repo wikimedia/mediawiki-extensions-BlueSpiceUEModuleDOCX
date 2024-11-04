@@ -15,6 +15,6 @@
 	"bs-uemoduledocx-widgetlink-subpages-title": "Esporta questa pagine e tutte le sue sottopagine come DOCX.",
 	"action-uemoduledocxsubpages-export": "esportare una pagina, comprese tutte le sottopagine, in DOCX",
 	"right-uemoduledocxsubpages-export": "Esporta una pagina, comprese tutte le sue sottopagine, in DOCX",
-	"right-uemoduledocx-export": "Esporta le pagine in DOCX",
-	"action-uemoduledocx-export": "esportare una pagina in DOCX"
+	"action-uemoduledocx-export": "esportare una pagina in DOCX",
+	"right-uemoduledocx-export": "Esporta le pagine in DOCX"
 }
