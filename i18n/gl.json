@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"bs-uemoduledocx-extension-description": "Activa a exportación a DOCX",
+	"bs-uemoduledocx-pref-SuppressNS": "Ocultar o prefixo do espazo de nomes no DOCX",
+	"bs-uemoduledocx-widgetlink-single-text": "DOCX dunha soa páxina",
+	"bs-uemoduledocx-widgetlink-single-title": "Exportar esta páxina a un DOCX.",
+	"bs-uemoduledocx-overview-title": "Office Open XML de Microsoft&reg; (DOCX)",
+	"bs-uemoduledocx-overview-description": "Exporta as páxinas a Microsoft DOCX.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "non dispoñible",
+	"bs-uemoduledocx-overview-webservice-state-ok": "dispoñible",
+	"bs-uemoduledocx-overview-webservice-webadmin": "Interface web de DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-overview-webservice-state": "Estado de DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Páxina DOCX con subpáxinas",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Exportar esta páxina e todas as subpáxinas a DOCX.",
+	"action-uemoduledocxsubpages-export": "exportar unha páxina, incluídas todas as subpáxinas, a DOCX",
+	"right-uemoduledocxsubpages-export": "Exportar unha páxina, incluídas todas as subpáxinas, a DOCX",
+	"action-uemoduledocx-export": "exportar unha páxina a DOCX",
+	"right-uemoduledocx-export": "Exportar unha páxina a DOCX"
+}
