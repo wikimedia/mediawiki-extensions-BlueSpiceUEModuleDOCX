@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Умар"
+		]
+	},
+	"bs-uemoduledocx-widgetlink-single-text": "Цхьа агӀо DOCX",
+	"bs-uemoduledocx-widgetlink-single-title": "Экспорт йе хӀара агӀо DOCX чу.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "тӀекхочехь йац",
+	"bs-uemoduledocx-overview-webservice-state-ok": "тӀекхочу"
+}

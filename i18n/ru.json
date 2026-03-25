@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Yurina Tatiana"
+		]
+	},
+	"bs-uemoduledocx-extension-description": "Позволяет экспортировать в DOCX",
+	"bs-uemoduledocx-pref-SuppressNS": "Скрыть префикс пространства имён в DOCX",
+	"bs-uemoduledocx-widgetlink-single-text": "Одна страница DOCX",
+	"bs-uemoduledocx-widgetlink-single-title": "Экспортировать эту страницу в DOCX.",
+	"bs-uemoduledocx-overview-title": "Microsoft&reg; Office Open XML (DOCX)",
+	"bs-uemoduledocx-overview-description": "Экспортирует страницы в Microsoft DOCX.",
+	"bs-uemoduledocx-overview-webservice-state-not-ok": "недоступно",
+	"bs-uemoduledocx-overview-webservice-state-ok": "доступно",
+	"bs-uemoduledocx-overview-webservice-webadmin": "Веб-интерфейс DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-overview-webservice-state": "Состояние DOCXService (BShtml2DOCX)",
+	"bs-uemoduledocx-widgetlink-subpages-text": "Страница DOCX с подстраницами",
+	"bs-uemoduledocx-widgetlink-subpages-title": "Экспортировать эту страницу и все подстраницы как DOCX.",
+	"action-uemoduledocxsubpages-export": "экспортировать страницу, включая все подстраницы, в DOCX",
+	"right-uemoduledocxsubpages-export": "Экспорт страницы, включая все подстраницы, в DOCX",
+	"action-uemoduledocx-export": "экспортировать страницу в DOCX",
+	"right-uemoduledocx-export": "Экспорт страницы в DOCX"
+}
