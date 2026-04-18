@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Tensama0415",
 			"Ykhwong"
 		]
 	},
@@ -18,5 +19,6 @@
 	"bs-uemoduledocx-widgetlink-subpages-title": "이 문서와 모든 하위 문서를 DOCX로 내보냅니다.",
 	"right-uemoduledocxsubpages-export": "모든 하위 문서를 포함하여 문서를 DOCX로 내보내기",
 	"action-uemoduledocx-export": "문서를 DOCX로 내보낼",
-	"right-uemoduledocx-export": "문서를 DOCX로 내보내기"
+	"right-uemoduledocx-export": "문서를 DOCX로 내보내기",
+	"action-uemoduledocxsubpages-export": "모든 하위 문서를 포함하여 문서를 DOCX로 내보낼"
 }
