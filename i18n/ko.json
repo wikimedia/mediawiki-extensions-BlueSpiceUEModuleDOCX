@@ -17,8 +17,8 @@
 	"bs-uemoduledocx-overview-webservice-state": "DOCXService (BShtml2DOCX) 상태",
 	"bs-uemoduledocx-widgetlink-subpages-text": "하위 문서가 있는 DOCX 문서",
 	"bs-uemoduledocx-widgetlink-subpages-title": "이 문서와 모든 하위 문서를 DOCX로 내보냅니다.",
-	"action-uemoduledocxsubpages-export": "모든 하위 문서를 포함하여 문서를 DOCX로 내보낼",
+	"action-uemoduledocxsubpages-export": "모든 하위 문서를 포함하여 문서를 DOCX로 내보내기",
 	"right-uemoduledocxsubpages-export": "모든 하위 문서를 포함하여 문서를 DOCX로 내보내기",
-	"action-uemoduledocx-export": "문서를 DOCX로 내보낼",
+	"action-uemoduledocx-export": "문서를 DOCX로 내보내기",
 	"right-uemoduledocx-export": "문서를 DOCX로 내보내기"
 }
